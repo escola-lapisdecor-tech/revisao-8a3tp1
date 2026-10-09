@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana de Provas · Revisão 3º Tri — 8º Ano</title>
+<style>
+  :root{
+    --navy:#14213d; --navy-2:#1d2f52; --ink:#22283a;
+    --gold:#cdab5a; --gold-2:#b8963e;
+    --cream:#faf6ea; --paper:#fffdf7; --line:#e7dfc9;
+    --port:#c1533f; --hist:#a06a2c; --geo:#2f6b5e; --cien:#6b4f9e; --mat:#2b5a8c;
+    --ok:#2f7d54; --no:#bb4032;
+    --shadow:0 10px 30px rgba(20,33,61,.10);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:'DM Sans','Segoe UI',system-ui,sans-serif;
+    background:var(--cream); color:var(--ink); line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{font-family:Georgia,'Times New Roman',serif}
+  button{font-family:inherit; cursor:pointer}
+  :focus-visible{outline:3px solid var(--gold); outline-offset:2px; border-radius:6px}
+
+  /* ---------- HEADER / HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgba(205,171,90,.18), transparent 55%),
+      linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);
+    color:#f6f1e2; padding:22px 20px 20px;
+  }
+  .hero-inner{max-width:960px; margin:0 auto}
+  .hero-top{display:flex; justify-content:space-between; align-items:flex-start; gap:12px}
+  .eyebrow{
+    font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--gold); font-weight:700; margin:0 0 6px;
+  }
+  .hero h1{font-size:clamp(24px,5.2vw,38px); margin:0; line-height:1.06; letter-spacing:-.01em}
+  .hero .sub{margin:8px 0 0; color:#d7cfba; max-width:52ch; font-size:15px}
+  .reset-btn{
+    flex:0 0 auto; background:rgba(255,255,255,.08); color:#e7dfc9; border:1px solid rgba(205,171,90,.35);
+    border-radius:99px; padding:8px 14px; font-size:12.5px; font-weight:600; display:inline-flex; align-items:center; gap:6px;
+    transition:.2s;
+  }
+  .reset-btn:hover{background:rgba(187,64,50,.25); border-color:#bb4032; color:#fff}
+
+  /* level + streak strip */
+  .status{display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:16px}
+  .level-card{
+    display:flex; align-items:center; gap:11px; background:rgba(255,255,255,.06);
+    border:1px solid rgba(205,171,90,.3); border-radius:14px; padding:10px 14px; flex:1 1 240px; min-width:220px;
+  }
+  .level-emb{font-size:30px; line-height:1; filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+  .level-meta{flex:1}
+  .level-rank{font-family:Georgia,serif; font-size:16px; color:#f4efe1; font-weight:700}
+  .level-sub{font-size:11.5px; color:#c9c1ac; margin-top:1px}
+  .level-track{height:7px; border-radius:99px; background:rgba(255,255,255,.14); overflow:hidden; margin-top:6px}
+  .level-track > i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--gold),#f2dd97); transition:width .6s ease}
+  .streak-card{
+    display:flex; align-items:center; gap:9px; background:rgba(255,255,255,.06);
+    border:1px solid rgba(205,171,90,.3); border-radius:14px; padding:10px 15px;
+  }
+  .streak-flame{font-size:24px; transition:transform .2s}
+  .streak-flame.pulse{transform:scale(1.35)}
+  .streak-num{font-family:Georgia,serif; font-size:22px; font-weight:700; color:var(--gold)}
+  .streak-lbl{font-size:11px; color:#c9c1ac; letter-spacing:.05em; line-height:1.2}
+
+  .week{display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-top:16px}
+  .day{
+    background:rgba(255,255,255,.06); border:1px solid rgba(205,171,90,.28);
+    border-radius:12px; padding:10px 8px; text-align:center; cursor:pointer; position:relative;
+    transition:transform .15s ease, background .2s ease, border-color .2s;
+  }
+  .day:hover{transform:translateY(-3px); background:rgba(255,255,255,.12)}
+  .day .dow{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); font-weight:700}
+  .day .dt{font-size:12px; color:#cfc7b2; margin:2px 0 6px}
+  .day .em{font-size:22px; line-height:1}
+  .day .nm{font-size:12.5px; margin-top:5px; font-weight:600; color:#f2ecdc}
+  .day .mini{height:4px; border-radius:99px; background:rgba(255,255,255,.14); margin-top:8px; overflow:hidden}
+  .day .mini > i{display:block; height:100%; width:0; background:var(--gold); transition:width .5s ease}
+  .day .medal{position:absolute; top:-8px; right:-6px; font-size:20px; display:none; filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+  .day.master .medal{display:block; animation:pop .5s ease}
+  @keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.3)}100%{transform:scale(1)}}
+
+  /* ---------- LAYOUT ---------- */
+  main{max-width:960px; margin:0 auto; padding:24px 16px 60px}
+  .section-title{
+    font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-2);
+    font-weight:700; margin:8px 0 14px; display:flex; align-items:center; gap:10px;
+  }
+  .section-title::after{content:""; flex:1; height:1px; background:var(--line)}
+
+  .cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px}
+  .card{
+    background:var(--paper); border:1px solid var(--line); border-radius:16px;
+    padding:16px 16px 14px; box-shadow:var(--shadow); position:relative; overflow:hidden;
+    display:flex; flex-direction:column; gap:10px; cursor:pointer;
+    transition:transform .15s ease, box-shadow .2s;
+  }
+  .card:hover{transform:translateY(-4px); box-shadow:0 16px 34px rgba(20,33,61,.16)}
+  .card.master{border-color:var(--gold); box-shadow:0 0 0 2px rgba(205,171,90,.35), var(--shadow)}
+  .card .stripe{position:absolute; inset:0 auto 0 0; width:6px; background:var(--acc)}
+  .card .top{display:flex; align-items:center; justify-content:space-between; gap:10px}
+  .card .badge{font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--acc); background:color-mix(in srgb,var(--acc) 12%,white); padding:4px 9px; border-radius:99px}
+  .card .em{font-size:30px}
+  .card .medal{position:absolute; top:12px; right:14px; font-size:24px; display:none; filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+  .card.master .medal{display:block; animation:pop .5s ease}
+  .card.master .em{display:none}
+  .card h3{margin:0; font-size:20px; color:var(--navy)}
+  .card .desc{margin:0; font-size:13px; color:#5c6070; min-height:34px}
+  .ring-row{display:flex; align-items:center; justify-content:space-between; margin-top:2px}
+  .ring{--p:0; width:46px; height:46px; border-radius:50%; display:grid; place-items:center;
+    background:conic-gradient(var(--acc) calc(var(--p)*1%), #eee 0); font-size:12px; font-weight:700; color:var(--navy)}
+  .ring span{background:var(--paper); width:34px; height:34px; border-radius:50%; display:grid; place-items:center}
+  .go{font-size:13px; font-weight:700; color:var(--acc)}
+
+  /* ---------- SUBJECT VIEW ---------- */
+  .subject{display:none}
+  .subject.active{display:block; animation:fade .3s ease}
+  @keyframes fade{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+  .backbar{display:flex; align-items:center; gap:12px; margin-bottom:8px}
+  .back{background:none; border:1px solid var(--line); color:var(--navy); border-radius:99px;
+    padding:7px 14px; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px}
+  .back:hover{background:#fff}
+  .subj-head{display:flex; align-items:center; gap:14px; margin:4px 0 14px}
+  .subj-head .em{font-size:40px}
+  .subj-head h2{margin:0; font-size:clamp(24px,5vw,32px); color:var(--navy)}
+  .subj-head .u{font-size:13px; color:#6a6e7c; font-weight:600; letter-spacing:.04em}
+
+  .tabs{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:18px; border-bottom:1px solid var(--line); padding-bottom:2px}
+  .tab{background:none; border:none; padding:9px 14px; font-size:14px; font-weight:600; color:#7b7f8c;
+    border-radius:10px 10px 0 0; position:relative}
+  .tab.on{color:var(--accV)}
+  .tab.on::after{content:""; position:absolute; left:10px; right:10px; bottom:-3px; height:3px; background:var(--accV); border-radius:3px}
+  .tab .tick{color:var(--ok); margin-left:4px; font-weight:700}
+  .pane{display:none}
+  .pane.on{display:block; animation:fade .25s ease}
+
+  .note{background:var(--paper); border:1px solid var(--line); border-left:4px solid var(--accV);
+    border-radius:12px; padding:16px 18px; margin:0 0 14px; box-shadow:var(--shadow)}
+  .note h4{margin:0 0 6px; font-size:17px; color:var(--navy); font-family:Georgia,serif}
+  .note p{margin:0 0 8px; font-size:14.5px; color:#3c414f}
+  .note p:last-child{margin-bottom:0}
+  .key{background:color-mix(in srgb,var(--accV) 16%,transparent); color:var(--navy); font-weight:600;
+    padding:0 4px; border-radius:4px}
+
+  .q{background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin-bottom:14px; box-shadow:var(--shadow)}
+  .q .qn{font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accV)}
+  .q .qt{font-size:15.5px; font-weight:600; color:var(--navy); margin:5px 0 12px}
+  .opts{display:grid; gap:8px}
+  .opt{text-align:left; background:#fff; border:1.5px solid var(--line); border-radius:10px;
+    padding:11px 13px; font-size:14.5px; color:#2f3442; display:flex; gap:10px; align-items:flex-start; transition:.15s}
+  .opt:hover:not(:disabled){border-color:var(--accV); background:color-mix(in srgb,var(--accV) 6%,white)}
+  .opt .l{font-weight:700; color:var(--accV); flex:0 0 auto}
+  .opt.correct{border-color:var(--ok); background:#eaf6ee}
+  .opt.correct .l{color:var(--ok)}
+  .opt.wrong{border-color:var(--no); background:#fbecea}
+  .opt.wrong .l{color:var(--no)}
+  .opt:disabled{cursor:default}
+  .explain{margin-top:11px; font-size:14px; padding:11px 13px; border-radius:10px;
+    background:color-mix(in srgb,var(--accV) 8%,white); border:1px dashed color-mix(in srgb,var(--accV) 40%,var(--line)); display:none}
+  .explain.show{display:block}
+  .explain b{color:var(--navy)}
+  .scorebar{background:var(--paper); border:1px dashed var(--accV); border-radius:12px; padding:12px 15px;
+    font-size:14px; color:var(--navy); font-weight:600; margin-bottom:14px; display:flex; align-items:center; gap:8px}
+
+  .match-help{font-size:13.5px; color:#6a6e7c; margin:0 0 12px}
+  .match{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .col h4{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--accV); margin:0 0 8px}
+  .chip{width:100%; text-align:left; background:var(--paper); border:1.5px solid var(--line);
+    border-radius:10px; padding:11px 12px; margin-bottom:8px; font-size:14px; color:#2f3442; transition:.15s; box-shadow:var(--shadow)}
+  .chip:hover:not(:disabled){border-color:var(--accV)}
+  .chip.sel{border-color:var(--accV); background:color-mix(in srgb,var(--accV) 10%,white); transform:scale(1.01)}
+  .chip.done{border-color:var(--ok); background:#eaf6ee; color:#2b5b3e; cursor:default}
+  .chip.done::before{content:"✓ "; color:var(--ok); font-weight:700}
+  .chip.miss{animation:shake .35s}
+  @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+  .ex{background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin-bottom:14px; box-shadow:var(--shadow)}
+  .ex .en{font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accV)}
+  .ex .et{font-size:15px; color:var(--navy); font-weight:600; margin:5px 0 10px}
+  .ex .et em{font-style:normal; background:#f3eede; padding:1px 5px; border-radius:5px; font-family:Georgia,serif}
+  .ans-label{font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:#8a8e9a; font-weight:700; margin:2px 0 5px}
+  .ans-field{width:100%; min-height:64px; resize:vertical; border:1.5px solid var(--line); border-radius:10px;
+    padding:10px 12px; font-family:inherit; font-size:14.5px; color:#2f3442; background:#fffef9; line-height:1.5}
+  .ans-field:focus{border-color:var(--accV); outline:none; box-shadow:0 0 0 3px color-mix(in srgb,var(--accV) 18%,transparent)}
+  .ans-saved{font-size:11.5px; color:var(--ok); font-weight:600; opacity:0; transition:.3s; margin-left:8px}
+  .ans-saved.show{opacity:1}
+  .ex-actions{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:10px}
+  .reveal{background:var(--navy); color:#f4efe1; border:none; border-radius:99px; padding:8px 16px; font-size:13px; font-weight:600}
+  .reveal:hover{background:var(--navy-2)}
+  .sol{display:none; margin-top:12px; padding:13px 15px; border-radius:10px; background:#f7f2e6; border:1px solid var(--line); font-size:14.5px; color:#39404e}
+  .sol.show{display:block}
+  .sol .step{margin:0 0 7px}
+  .sol .step:last-child{margin-bottom:0}
+  .sol b{color:var(--navy)}
+  .sol .ans{margin-top:9px; padding-top:9px; border-top:1px dashed var(--line); font-weight:600; color:var(--ok)}
+  .selfcheck{display:none; gap:8px; margin-top:11px; align-items:center; flex-wrap:wrap}
+  .selfcheck.show{display:flex}
+  .selfcheck .lbl{font-size:13px; color:#6a6e7c; font-weight:600}
+  .sc-btn{border:1.5px solid var(--line); background:#fff; border-radius:99px; padding:7px 14px; font-size:13px; font-weight:600; color:#2f3442; transition:.15s}
+  .sc-btn.good:hover{border-color:var(--ok); background:#eaf6ee; color:var(--ok)}
+  .sc-btn.soso:hover{border-color:var(--gold-2); background:#fbf4e2; color:var(--gold-2)}
+  .sc-btn.picked{pointer-events:none; opacity:.6}
+
+  .done-flag{margin-top:6px; text-align:center; padding:14px; border-radius:12px;
+    background:color-mix(in srgb,var(--accV) 10%,white); border:1px dashed var(--accV); color:var(--navy); font-weight:600; display:none}
+  .done-flag.show{display:block}
+  .medal-banner{display:none; text-align:center; margin:0 0 16px; padding:16px; border-radius:14px;
+    background:linear-gradient(135deg,#fbf4dd,#f6ead0); border:1px solid var(--gold); color:var(--navy); box-shadow:var(--shadow)}
+  .medal-banner.show{display:block; animation:pop .5s ease}
+  .medal-banner .big{font-size:40px}
+  .medal-banner .t{font-family:Georgia,serif; font-size:19px; font-weight:700; margin-top:4px}
+  .medal-banner .s{font-size:13.5px; color:#6a6e7c; margin-top:2px}
+
+  footer{max-width:960px; margin:0 auto; padding:0 16px 40px; color:#8a8e9a; font-size:12.5px; text-align:center}
+  .toast{position:fixed; bottom:18px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--navy); color:#f4efe1; padding:11px 18px; border-radius:99px; font-size:14px; font-weight:600;
+    box-shadow:0 10px 30px rgba(0,0,0,.25); opacity:0; transition:.3s; pointer-events:none; z-index:50}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+  .toast.xp{background:linear-gradient(120deg,var(--gold-2),var(--gold)); color:#20200f}
+
+  /* confetti */
+  .confetti{position:fixed; top:-12px; width:9px; height:14px; z-index:60; pointer-events:none; border-radius:2px; will-change:transform}
+
+  /* modal */
+  .modal-bg{position:fixed; inset:0; background:rgba(20,33,61,.55); display:none; align-items:center; justify-content:center; z-index:80; padding:20px}
+  .modal-bg.show{display:flex; animation:fade .2s ease}
+  .modal{background:var(--paper); border-radius:16px; padding:22px 22px 18px; max-width:360px; box-shadow:0 20px 50px rgba(0,0,0,.3)}
+  .modal h3{margin:0 0 8px; color:var(--navy); font-size:19px}
+  .modal p{margin:0 0 16px; font-size:14px; color:#5c6070}
+  .modal-row{display:flex; gap:10px; justify-content:flex-end}
+  .mbtn{border:none; border-radius:99px; padding:9px 16px; font-size:13.5px; font-weight:600}
+  .mbtn.ghost{background:#efe9d8; color:var(--navy)}
+  .mbtn.danger{background:var(--no); color:#fff}
+
+  @media(max-width:620px){
+    .week{grid-template-columns:repeat(5,1fr); gap:5px}
+    .day{padding:8px 4px}
+    .day .nm{font-size:10.5px}
+    .day .em{font-size:18px}
+    .match{grid-template-columns:1fr}
+    .col.defs{margin-top:4px}
+    .hero-top{flex-direction:column}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div>
+        <p class="eyebrow">Escola Projeto Lápis de Cor · 8º Ano</p>
+        <h1>Semana de Provas — 3º Trimestre</h1>
+        <p class="sub">1ª Avaliação (P1) · 14 a 16 de outubro. Revise, responda no app e ganhe XP, sequências e medalhas.</p>
+      </div>
+      <button class="reset-btn" id="btnReset">↺ Recomeçar</button>
+    </div>
+
+    <div class="status">
+      <div class="level-card">
+        <div class="level-emb" id="lvlEmb">🌱</div>
+        <div class="level-meta">
+          <div class="level-rank" id="lvlRank">Iniciante</div>
+          <div class="level-sub" id="lvlSub">0 XP · próxima patente em 100</div>
+          <div class="level-track"><i id="lvlFill"></i></div>
+        </div>
+      </div>
+      <div class="streak-card">
+        <span class="streak-flame" id="flame">🔥</span>
+        <div><div class="streak-num" id="streakNum">0</div><div class="streak-lbl">sequência<br>de acertos</div></div>
+      </div>
+    </div>
+
+    <div class="week" id="week"></div>
+  </div>
+</header>
+
+<main>
+  <section id="home">
+    <div class="section-title">Escolha a matéria</div>
+    <div class="cards" id="cards"></div>
+  </section>
+  <section id="subjectView"></section>
+</main>
+
+<footer>
+  Feito para revisar em casa · responda no próprio app, confira as resoluções e complete as 4 atividades de cada matéria para ganhar a medalha 🥇
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3>Recomeçar do zero?</h3>
+    <p>Isso apaga todo o seu progresso, o XP, as medalhas e as respostas que você escreveu. Não dá para desfazer.</p>
+    <div class="modal-row">
+      <button class="mbtn ghost" id="mCancel">Cancelar</button>
+      <button class="mbtn danger" id="mConfirm">Sim, apagar tudo</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var SUBJECTS = [
+  /* ---------------- GEOGRAFIA ---------------- */
+  {
+    id:"geo", nome:"Geografia", em:"🌎", acc:"var(--geo)", dow:"Qua", dt:"14/10",
+    desc:"Economia do México, América Central continental e insular, América do Sul (aspectos gerais e recursos) e o papel do Brasil.",
+    resumo:[
+      {t:"México: economia", h:[
+        "O <k>México</k> fica na América do Norte e faz uma longa fronteira com os <b>Estados Unidos</b>. Tem cerca de 130 milhões de habitantes, e sua capital é a Cidade do México, uma das maiores metrópoles do mundo.",
+        "Faz parte de um acordo de livre comércio com os Estados Unidos e o Canadá — o antigo <b>NAFTA</b> (1994), hoje chamado <b>T-MEC</b> (ou USMCA). Por isso, a maior parte das exportações mexicanas vai para os EUA.",
+        "<k>Maquiladoras</k> são indústrias instaladas principalmente perto da fronteira com os EUA. Elas importam peças, <b>montam</b> os produtos (carros, eletrônicos, roupas) usando mão de obra mais barata e os exportam, sobretudo para os Estados Unidos.",
+        "Outros destaques: <b>petróleo</b> (explorado pela estatal Pemex), agricultura (o <b>milho</b> é a base da alimentação; o país também exporta abacate e tomate), <b>turismo</b> (praias como Cancún e ruínas maias e astecas) e o dinheiro enviado por mexicanos que trabalham nos EUA.",
+        "Problemas: forte <b>desigualdade social</b>, violência ligada ao narcotráfico e emigração para os Estados Unidos."
+      ]},
+      {t:"América Central continental", h:[
+        "A América Central se divide em duas partes: a <b>continental</b>, uma faixa estreita de terra (um <b>istmo</b>) que liga a América do Norte à do Sul, e a <b>insular</b>, formada por ilhas.",
+        "A parte continental tem <b>sete países</b>: Guatemala, Belize, Honduras, El Salvador, Nicarágua, Costa Rica e Panamá.",
+        "<b>Natureza</b>: relevo montanhoso, com muitos <b>vulcões</b> e <b>terremotos</b>, porque a região fica no encontro de placas tectônicas. O clima é tropical, e a região é atingida por <b>furacões</b>.",
+        "<b>Economia</b>: historicamente baseada na <b>agroexportação</b> (banana, café e açúcar), muitas vezes em grandes propriedades de empresas estrangeiras, sobretudo dos EUA. Por isso alguns desses países foram chamados, de forma pejorativa, de “repúblicas das bananas”.",
+        "O <k>Canal do Panamá</k>, inaugurado em 1914, liga os oceanos <b>Atlântico e Pacífico</b> e encurta muito as rotas dos navios. Foi controlado pelos EUA e passou ao Panamá em 1999. A <b>Costa Rica</b> se destaca pelo ecoturismo e por não ter exército desde 1948. Em vários países há pobreza, violência e emigração."
+      ]},
+      {t:"América Central insular", h:[
+        "A parte insular é formada pelas ilhas do <b>mar do Caribe</b>, chamadas <k>Antilhas</k>, e pelo arquipélago das Bahamas.",
+        "<b>Grandes Antilhas</b>: Cuba, Jamaica, a ilha de Hispaniola (dividida entre Haiti e República Dominicana) e Porto Rico (território dos EUA). <b>Pequenas Antilhas</b>: ilhas menores, como Barbados e Trinidad e Tobago.",
+        "<b>Colonização</b>: espanhóis, ingleses, franceses e holandeses implantaram o sistema de <b>plantation</b> (grandes lavouras de cana-de-açúcar para exportação) com trabalho de africanos escravizados. Por isso a maior parte da população é <b>afrodescendente</b>, e as ilhas falam línguas diferentes (espanhol, inglês, francês, holandês e crioulo).",
+        "<b>Economia</b>: <b>turismo</b> (praias e cruzeiros), açúcar e serviços financeiros. Algumas ilhas são <b>paraísos fiscais</b> (cobram pouquíssimos impostos), como as Bahamas e as Ilhas Cayman.",
+        "<b>Cuba</b> passou por uma revolução socialista em 1959 e sofre um embargo econômico dos EUA. O <b>Haiti</b> foi o primeiro país da América Latina a se tornar independente (1804), após uma revolução de escravizados; hoje é o país mais pobre das Américas e sofreu um grande terremoto em 2010."
+      ]},
+      {t:"América do Sul: aspectos gerais", h:[
+        "A <k>América do Sul</k> tem <b>12 países independentes</b> e a Guiana Francesa, que é território da França.",
+        "<b>Relevo</b>: a oeste fica a <k>Cordilheira dos Andes</k>, cadeia de montanhas jovens, com vulcões e terremotos; no centro e no leste há planaltos antigos (Brasileiro e das Guianas) e grandes planícies (Amazônica, do Pantanal, do Pampa e do Chaco).",
+        "<b>Hidrografia</b>: a <b>Bacia Amazônica</b>, com o rio Amazonas, o de maior volume de água do mundo; a <b>Bacia Platina</b> (rios Paraná, Paraguai e Uruguai); e o rio Orinoco, na Venezuela.",
+        "<b>Climas e vegetação</b>: equatorial (Floresta Amazônica, a maior floresta tropical do mundo), tropical (Cerrado), subtropical e temperado (Pampas), frio de montanha nos Andes, além do <b>Deserto do Atacama</b>, no Chile, um dos lugares mais secos do planeta.",
+        "<b>População</b>: formada por povos indígenas (maioria na Bolívia e grande parte no Peru), descendentes de europeus colonizadores, africanos e imigrantes. Fala-se principalmente espanhol e português (no Brasil), mas também inglês (Guiana), holandês (Suriname), francês (Guiana Francesa) e línguas indígenas, como o quíchua, o aimará e o guarani (oficial no Paraguai)."
+      ]},
+      {t:"Uso dos recursos naturais", h:[
+        "A economia de muitos países sul-americanos depende da exportação de <k>commodities</k>: produtos primários negociados no mercado mundial, como minérios, petróleo e alimentos.",
+        "<b>Minérios</b>: o Chile é o maior produtor de <b>cobre</b> do mundo; o Brasil se destaca no <b>minério de ferro</b>; Bolívia, Chile e Argentina formam o “triângulo do lítio”, metal usado em baterias.",
+        "<b>Energia</b>: a Venezuela tem as maiores reservas comprovadas de <b>petróleo</b> do mundo; Brasil, Colômbia e Equador também produzem; a Bolívia exporta gás natural. A usina de <b>Itaipu</b>, no rio Paraná, é dividida entre Brasil e Paraguai.",
+        "<b>Agropecuária e pesca</b>: soja (Brasil, Argentina, Paraguai), carne (Brasil, Argentina, Uruguai), café (Brasil, Colômbia), banana (Equador) e pesca de anchova no Peru.",
+        "<b>Problemas</b>: desmatamento da Amazônia, garimpo ilegal (que contamina rios com mercúrio), conflitos com povos indígenas e a dependência de commodities, cujos preços sobem e descem no mercado internacional.",
+        "Para fortalecer o comércio entre os países, foi criado o <b>Mercosul</b> (1991), fundado por Brasil, Argentina, Uruguai e Paraguai."
+      ]},
+      {t:"Brasil: importância regional e mundial", h:[
+        "O Brasil ocupa cerca de <b>47% do território</b> da América do Sul e tem a maior população e a <b>maior economia</b> da região. Faz fronteira com quase todos os países sul-americanos (exceto Chile e Equador).",
+        "<b>Importância regional</b>: tem papel de liderança no <b>Mercosul</b> e em acordos de integração, comércio e infraestrutura com os vizinhos.",
+        "<b>Importância mundial</b>: é um dos maiores exportadores de <b>alimentos</b> do mundo (soja, carne, café, açúcar, suco de laranja), além de minério de ferro e petróleo. Participa de grupos como o <b>BRICS</b> e o <b>G20</b>.",
+        "Tem grande parte da <b>Floresta Amazônica</b>, enorme biodiversidade, cerca de 12% da água doce superficial do planeta e uma matriz energética com muitas fontes renováveis. Em 2025, Belém sediou a <b>COP30</b>, a conferência da ONU sobre mudanças climáticas.",
+        "<b>Desafios</b>: desigualdade social, desmatamento e infraestrutura insuficiente."
+      ]}
+    ],
+    quiz:[
+      {q:"O que são as maquiladoras do México?", o:["Fazendas de milho","Indústrias que montam produtos com peças importadas para exportar","Bancos estatais","Áreas de proteção ambiental"], a:1,
+       e:"As maquiladoras importam peças, montam os produtos com mão de obra mais barata e exportam, principalmente para os EUA."},
+      {q:"O Canal do Panamá liga:", o:["O mar do Caribe ao golfo do México","Os oceanos Atlântico e Pacífico","O rio Amazonas ao Atlântico","Os oceanos Índico e Pacífico"], a:1,
+       e:"Inaugurado em 1914, o canal liga o Atlântico ao Pacífico e encurta as rotas marítimas."},
+      {q:"Qual foi o primeiro país da América Latina a conquistar a independência, após uma revolução de escravizados?", o:["Cuba","México","Haiti","Jamaica"], a:2,
+       e:"O Haiti se tornou independente em 1804, após uma revolução liderada por escravizados."},
+      {q:"A grande cadeia de montanhas no oeste da América do Sul é a:", o:["Serra do Mar","Cordilheira dos Andes","Montanhas Rochosas","Cordilheira do Himalaia"], a:1,
+       e:"Os Andes são montanhas jovens, com vulcões e terremotos, que atravessam o oeste do continente."},
+      {q:"Por que o Brasil tem grande importância mundial?", o:["Por ser o menor país da região","Por ser um dos maiores exportadores de alimentos e ter enorme biodiversidade","Por não ter recursos naturais","Por não fazer parte de nenhum bloco"], a:1,
+       e:"O Brasil é grande exportador de alimentos e minérios, tem a maior parte da Amazônia e participa de grupos como o BRICS e o G20."}
+    ],
+    match:[
+      {t:"Maquiladoras", d:"Indústrias mexicanas que montam produtos para exportar"},
+      {t:"Canal do Panamá", d:"Liga os oceanos Atlântico e Pacífico"},
+      {t:"Antilhas", d:"Ilhas do mar do Caribe"},
+      {t:"Cordilheira dos Andes", d:"Montanhas jovens no oeste da América do Sul"},
+      {t:"Commodities", d:"Produtos primários vendidos no mercado mundial"}
+    ],
+    ex:[
+      {q:"Explique o que são as maquiladoras e por que se instalaram perto da fronteira com os EUA.",
+       s:["<b>1.</b> Pense no que elas fazem com as peças importadas.","<b>2.</b> Para onde vão os produtos?"],
+       ans:"São indústrias que montam produtos com peças importadas e mão de obra mais barata; ficam perto da fronteira para exportar com facilidade para os EUA."},
+      {q:"Cite duas atividades econômicas importantes do México, além das maquiladoras.",
+       s:["<b>1.</b> Pense em recursos naturais.","<b>2.</b> E em atrativos para visitantes."],
+       ans:"Ex.: exploração de petróleo e turismo (também agricultura de milho e abacate)."},
+      {q:"Quais países formam a América Central continental?",
+       s:["<b>1.</b> São sete países no istmo.","<b>2.</b> Do norte (Guatemala) até o sul (Panamá)."],
+       ans:"Guatemala, Belize, Honduras, El Salvador, Nicarágua, Costa Rica e Panamá."},
+      {q:"Por que a América Central sofre com vulcões e terremotos?",
+       s:["<b>1.</b> Pense na estrutura da crosta terrestre.","<b>2.</b> A região fica numa área de encontro."],
+       ans:"Porque está localizada no encontro de placas tectônicas."},
+      {q:"Qual é a importância do Canal do Panamá?",
+       s:["<b>1.</b> Ele liga dois oceanos.","<b>2.</b> Pense no caminho dos navios antes dele."],
+       ans:"Liga o Atlântico ao Pacífico, encurtando as rotas comerciais marítimas."},
+      {q:"Por que a maior parte da população das Antilhas é afrodescendente?",
+       s:["<b>1.</b> Lembre do sistema usado nas lavouras de cana.","<b>2.</b> Quem trabalhava nelas?"],
+       ans:"Porque a colonização baseada em plantations de cana usou o trabalho de africanos escravizados."},
+      {q:"Cite duas características naturais da América do Sul.",
+       s:["<b>1.</b> Pense no relevo do oeste.","<b>2.</b> E nos grandes rios ou florestas."],
+       ans:"Ex.: a Cordilheira dos Andes e a Bacia Amazônica (também o Deserto do Atacama e a Floresta Amazônica)."},
+      {q:"O que são commodities? Dê dois exemplos sul-americanos.",
+       s:["<b>1.</b> São produtos primários.","<b>2.</b> Pense em minérios, energia e alimentos."],
+       ans:"Produtos primários vendidos no mercado mundial; ex.: cobre do Chile e soja do Brasil."},
+      {q:"Cite um problema ambiental causado pelo uso dos recursos naturais na América do Sul.",
+       s:["<b>1.</b> Pense na Amazônia.","<b>2.</b> Ou na mineração."],
+       ans:"Ex.: desmatamento da Amazônia ou contaminação de rios por mercúrio no garimpo ilegal."},
+      {q:"Explique a importância do Brasil na América do Sul e no mundo.",
+       s:["<b>1.</b> Pense em tamanho, população e economia.","<b>2.</b> E na exportação de alimentos e nos recursos naturais."],
+       ans:"É o maior país e a maior economia da região, líder no Mercosul; no mundo, é grande exportador de alimentos e minérios e tem enorme biodiversidade."}
+    ]
+  },
+
+  /* ---------------- PORTUGUÊS ---------------- */
+  {
+    id:"port", nome:"Língua Portuguesa", em:"📖", acc:"var(--port)", dow:"Qua", dt:"14/10",
+    desc:"Autobiografia, aposto e vocativo, e orações coordenadas (assindéticas e sindéticas).",
+    resumo:[
+      {t:"Autobiografia", h:[
+        "A <k>autobiografia</k> é o gênero em que uma pessoa <b>narra a história da própria vida</b>. A palavra vem do grego: <i>auto</i> (próprio), <i>bio</i> (vida) e <i>grafia</i> (escrita).",
+        "O narrador é também o personagem principal: é um <b>narrador-personagem</b>, que conta os fatos em <b>1ª pessoa</b> (<i>eu nasci, eu morei, eu aprendi</i>).",
+        "Os fatos narrados são <b>reais</b>, mas são contados do ponto de vista de quem viveu. Por isso a autobiografia mistura acontecimentos, <b>lembranças, sentimentos e reflexões</b>.",
+        "<b>Biografia x autobiografia</b>: a biografia conta a vida de <b>outra pessoa</b>, em 3ª pessoa; a autobiografia conta a vida do próprio autor, em 1ª pessoa. Outros gêneros parecidos são o <b>diário</b> (registros datados do dia a dia) e as <b>memórias</b> (que se concentram em certos momentos ou lembranças)."
+      ]},
+      {t:"Estrutura e linguagem da autobiografia", h:[
+        "Geralmente os fatos seguem a <b>ordem cronológica</b>: <b>início</b> (nascimento, origem, família), <b>desenvolvimento</b> (infância, escola, acontecimentos marcantes, desafios e conquistas) e <b>conclusão</b> (o momento presente e reflexões sobre a vida).",
+        "Os verbos aparecem principalmente no <b>pretérito perfeito</b> (<i>mudei, conheci</i>) e no <b>pretérito imperfeito</b> (<i>morava, brincava</i>).",
+        "São muito usados os <b>marcadores de tempo</b> (<i>quando eu tinha sete anos, naquela época, anos depois</i>) e de <b>lugar</b> (<i>na casa da minha avó, em Curitiba</i>).",
+        "A linguagem é <b>subjetiva</b>: o autor expressa emoções e opiniões. Podem aparecer fotos, cartas e documentos."
+      ]},
+      {t:"Aposto", h:[
+        "<k>Aposto</k> é o termo que se refere a outro termo da oração para <b>explicar, especificar, resumir ou enumerar</b>.",
+        "<b>Explicativo</b>: explica o termo anterior e vem isolado por <b>vírgulas</b>, travessões ou parênteses. Ex.: <i>Machado de Assis, <u>grande escritor brasileiro</u>, nasceu no Rio de Janeiro.</i>",
+        "<b>Especificativo</b>: especifica um nome genérico, <b>sem vírgula</b>. Ex.: <i>o poeta <u>Drummond</u></i>, <i>a cidade de <u>Curitiba</u></i>, <i>o rio <u>Amazonas</u></i>.",
+        "<b>Enumerativo</b>: enumera elementos, geralmente depois de <b>dois-pontos</b>. Ex.: <i>Comprei três frutas: <u>maçã, pera e uva</u>.</i>",
+        "<b>Resumitivo</b>: resume uma lista anterior com palavras como <i>tudo, todos, nada, ninguém</i>. Ex.: <i>Pais, alunos, professores, <u>todos</u> participaram da festa.</i>"
+      ]},
+      {t:"Vocativo", h:[
+        "<k>Vocativo</k> é o termo usado para <b>chamar</b> ou se <b>dirigir</b> a alguém (ou a algo personificado) com quem se fala.",
+        "Ele é um <b>termo independente</b>: não faz parte do sujeito nem do predicado.",
+        "O vocativo vem sempre isolado por <b>vírgula</b> e pode aparecer no início, no meio ou no fim da frase. Ex.: <i><u>Pedro</u>, venha cá.</i> / <i>Venha cá, <u>Pedro</u>.</i> / <i>Você sabe, <u>meu amigo</u>, que pode contar comigo.</i>",
+        "Pode vir acompanhado da interjeição <i>ó</i>: <i>Ó <u>mar</u>, quanto do teu sal são lágrimas de Portugal!</i> (Fernando Pessoa)."
+      ]},
+      {t:"Aposto ou vocativo?", h:[
+        "O <b>aposto</b> explica ou especifica um termo da frase; o <b>vocativo</b> chama a pessoa com quem se fala.",
+        "Compare: <i>Maria, <u>minha vizinha</u>, viajou.</i> (aposto: explica quem é Maria) e <i><u>Maria</u>, venha cá!</i> (vocativo: chama Maria).",
+        "Veja como a vírgula muda o sentido: <i><u>Pedro</u>, o professor chegou.</i> (vocativo: avisa-se a Pedro que o professor chegou) x <i>Pedro, <u>o professor</u>, chegou.</i> (aposto: Pedro, que é o professor, chegou).",
+        "Dica: o vocativo costuma aparecer com verbos no <b>imperativo</b> (ordens e pedidos), em perguntas e em cartas, mensagens e falas."
+      ]},
+      {t:"Orações coordenadas", h:[
+        "No <b>período composto por coordenação</b>, as orações são <b>sintaticamente independentes</b>: uma não funciona como termo da outra, e cada uma tem sentido próprio.",
+        "<k>Coordenadas assindéticas</k>: ligadas <b>sem conjunção</b>, apenas por vírgula, ponto e vírgula ou dois-pontos. Ex.: <i>Cheguei, vi, venci.</i> / <i>Acordei, tomei café, fui para a escola.</i>",
+        "<k>Coordenadas sindéticas</k>: ligadas por uma <b>conjunção coordenativa</b>. Ex.: <i>Estudei muito <u>e</u> passei na prova.</i>"
+      ]},
+      {t:"Tipos de orações coordenadas sindéticas", h:[
+        "<b>Aditivas</b> — somam ideias: <i>e, nem, não só... mas também</i>. Ex.: <i>Ele não estudou <u>nem</u> fez a tarefa.</i>",
+        "<b>Adversativas</b> — expressam oposição ou contraste: <i>mas, porém, contudo, todavia, entretanto, no entanto</i>. Ex.: <i>Estudei, <u>mas</u> não fui bem.</i>",
+        "<b>Alternativas</b> — expressam alternância ou escolha: <i>ou, ou... ou, ora... ora, quer... quer</i>. Ex.: <i><u>Ou</u> você estuda, <u>ou</u> não sai.</i>",
+        "<b>Conclusivas</b> — expressam conclusão: <i>logo, portanto, por isso, então, pois</i> (depois do verbo). Ex.: <i>Choveu muito; <u>portanto</u>, o jogo foi cancelado.</i>",
+        "<b>Explicativas</b> — explicam o que foi dito antes: <i>pois</i> (antes do verbo), <i>porque, que</i>. Ex.: <i>Leve o guarda-chuva, <u>pois</u> vai chover.</i>",
+        "<b>Pontuação</b>: usa-se vírgula antes de <i>mas, porém, portanto, pois</i> e das alternativas repetidas. Com <i>e</i>, em geral não se usa vírgula, a não ser que os sujeitos sejam diferentes ou o <i>e</i> tenha sentido de oposição."
+      ]}
+    ],
+    quiz:[
+      {q:"Na autobiografia, o narrador é:", o:["Um narrador observador em 3ª pessoa","Um narrador-personagem que conta a própria vida em 1ª pessoa","Um entrevistador","Um narrador que nunca aparece"], a:1,
+       e:"Na autobiografia, o autor conta a própria vida: é narrador-personagem e usa a 1ª pessoa."},
+      {q:"Em “Curitiba, capital do Paraná, é conhecida pelo frio”, o termo “capital do Paraná” é:", o:["Vocativo","Sujeito","Aposto","Predicado"], a:2,
+       e:"Ele explica o termo “Curitiba” e está entre vírgulas: é um aposto explicativo."},
+      {q:"Em qual frase há vocativo?", o:["Ana, a minha irmã, chegou.","Comprei frutas: maçã e uva.","Professora, posso sair?","O rio Amazonas é enorme."], a:2,
+       e:"“Professora” é o termo usado para chamar a pessoa com quem se fala."},
+      {q:"Em “Treinei bastante, mas perdi o jogo”, a segunda oração é coordenada:", o:["Aditiva","Adversativa","Conclusiva","Explicativa"], a:1,
+       e:"A conjunção “mas” indica oposição: coordenada sindética adversativa."},
+      {q:"Em “Ele estudou muito; portanto, foi aprovado”, a conjunção indica:", o:["Adição","Alternância","Conclusão","Oposição"], a:2,
+       e:"“Portanto” introduz uma conclusão: coordenada sindética conclusiva."}
+    ],
+    match:[
+      {t:"Autobiografia", d:"Narrativa da própria vida, em 1ª pessoa"},
+      {t:"Aposto", d:"Termo que explica, especifica, resume ou enumera outro"},
+      {t:"Vocativo", d:"Termo que chama a pessoa com quem se fala"},
+      {t:"Assindética", d:"Oração coordenada ligada sem conjunção"},
+      {t:"Adversativa", d:"Coordenada que expressa oposição (mas, porém)"}
+    ],
+    ex:[
+      {q:"Explique a diferença entre biografia e autobiografia.",
+       s:["<b>1.</b> Pense em quem tem a vida contada.","<b>2.</b> E na pessoa do discurso usada."],
+       ans:"A biografia conta a vida de outra pessoa, em 3ª pessoa; a autobiografia conta a vida do próprio autor, em 1ª pessoa."},
+      {q:"Cite duas características da linguagem da autobiografia.",
+       s:["<b>1.</b> Pense nos tempos verbais.","<b>2.</b> E nas marcas de tempo e na subjetividade."],
+       ans:"Ex.: verbos no passado (pretérito perfeito e imperfeito) e marcadores de tempo (também 1ª pessoa e subjetividade)."},
+      {q:"Identifique e classifique o aposto: “O escritor Monteiro Lobato criou o Sítio do Picapau Amarelo.”",
+       s:["<b>1.</b> Qual palavra especifica o termo genérico “escritor”?","<b>2.</b> Ele aparece sem vírgula."],
+       ans:"“Monteiro Lobato”: aposto especificativo."},
+      {q:"Identifique o aposto e sua função: “Levei tudo para a viagem: roupas, livros e o carregador.”",
+       s:["<b>1.</b> O que vem depois dos dois-pontos?","<b>2.</b> Esses elementos detalham a palavra “tudo”."],
+       ans:"“roupas, livros e o carregador”: aposto enumerativo."},
+      {q:"Pontue corretamente, destacando o vocativo: “Meninos venham jantar.”",
+       s:["<b>1.</b> “Meninos” é quem está sendo chamado.","<b>2.</b> O vocativo deve ser isolado por vírgula."],
+       ans:"“Meninos, venham jantar.”"},
+      {q:"Explique a diferença de sentido: (a) “Pedro, o professor chegou.” (b) “Pedro, o professor, chegou.”",
+       s:["<b>1.</b> Em (a), “Pedro” é chamado.","<b>2.</b> Em (b), “o professor” explica quem é Pedro."],
+       ans:"(a) “Pedro” é vocativo: avisa-se a Pedro que o professor chegou. (b) “o professor” é aposto: quem chegou foi Pedro, que é o professor."},
+      {q:"Classifique as orações: “Abri a janela, olhei a rua, voltei para a cama.”",
+       s:["<b>1.</b> Conte os verbos: três orações.","<b>2.</b> Há alguma conjunção ligando-as?"],
+       ans:"Orações coordenadas assindéticas (ligadas sem conjunção)."},
+      {q:"Classifique a oração destacada: “Leve o casaco, <em>pois está frio</em>.”",
+       s:["<b>1.</b> A segunda oração explica o pedido da primeira.","<b>2.</b> “Pois” vem antes do verbo."],
+       ans:"Coordenada sindética explicativa."},
+      {q:"Classifique: “Ora ele ria, ora ele chorava.”",
+       s:["<b>1.</b> As conjunções são repetidas.","<b>2.</b> Indicam alternância de ações."],
+       ans:"Coordenadas sindéticas alternativas."},
+      {q:"Una as orações com a conjunção adequada e classifique: “Estudei a semana toda.” / “Tirei nota alta.”",
+       s:["<b>1.</b> A segunda é consequência da primeira.","<b>2.</b> Use uma conjunção de conclusão."],
+       ans:"Ex.: “Estudei a semana toda; por isso, tirei nota alta.” → coordenada sindética conclusiva."}
+    ]
+  },
+
+  /* ---------------- MATEMÁTICA ---------------- */
+  {
+    id:"mat", nome:"Matemática", em:"➗", acc:"var(--mat)", dow:"Qui", dt:"15/10",
+    desc:"Equações literais, sistemas do 1º grau (adição e substituição, SPD/SPI/SI), x² = k, quadriláteros, polígonos e pavimentação.",
+    resumo:[
+      {t:"Equações literais do 1º grau", h:[
+        "<k>Equação literal</k> é aquela que, além da incógnita, tem <b>outras letras</b> (chamadas parâmetros ou coeficientes literais). Ex.: <i>ax + b = c</i>, em que a incógnita é <b>x</b>.",
+        "Resolvemos como uma equação comum, isolando a incógnita: ax + b = c → ax = c − b → <b>x = (c − b)/a</b>.",
+        "As fórmulas também são equações literais. Podemos isolar qualquer letra: na fórmula da distância <i>d = v · t</i>, temos <i>t = d/v</i>; na área do triângulo <i>A = b · h/2</i>, temos <i>h = 2A/b</i>; no perímetro do retângulo <i>P = 2a + 2b</i>, temos <i>a = (P − 2b)/2</i>."
+      ]},
+      {t:"Condição de existência", h:[
+        "Como <b>não existe divisão por zero</b>, quando a solução tem uma letra no denominador precisamos dizer para quais valores ela existe. Essa é a <k>condição de existência</k>.",
+        "Ex.: mx = 5 → x = 5/m, com a condição <b>m ≠ 0</b>.",
+        "Ex.: (k − 2)x = 6 → x = 6/(k − 2), com a condição k − 2 ≠ 0, ou seja, <b>k ≠ 2</b>.",
+        "Sempre que dividir por uma expressão com letras, escreva a condição: a expressão do denominador deve ser <b>diferente de zero</b>."
+      ]},
+      {t:"Sistemas de equações do 1º grau", h:[
+        "Um <k>sistema de equações</k> é formado por duas (ou mais) equações com as mesmas incógnitas, que devem ser verdadeiras <b>ao mesmo tempo</b>.",
+        "A <b>solução</b> de um sistema com duas incógnitas é um <b>par ordenado (x, y)</b> que satisfaz as duas equações.",
+        "Ex.: no sistema { x + y = 10 ; x − y = 2 }, a solução é (6, 4), pois 6 + 4 = 10 e 6 − 4 = 2.",
+        "Para conferir, <b>substitua</b> os valores nas duas equações. Se as duas forem verdadeiras, a solução está certa."
+      ]},
+      {t:"Método da adição", h:[
+        "No <k>método da adição</k>, somamos as equações membro a membro para <b>eliminar uma das incógnitas</b>. Para isso, os coeficientes dessa incógnita devem ser <b>opostos</b> (como +y e −y).",
+        "Ex.: { x + y = 10 ; x − y = 2 } → somando: 2x = 12 → x = 6. Substituindo na primeira: 6 + y = 10 → y = 4. Solução: (6, 4).",
+        "Se os coeficientes não forem opostos, <b>multiplique uma das equações</b> por um número conveniente. Ex.: { 2x + y = 7 ; x + y = 5 } → multiplicando a segunda por −1: −x − y = −5. Somando: x = 2. Então 2 + y = 5 → y = 3. Solução: (2, 3)."
+      ]},
+      {t:"Método da substituição", h:[
+        "No <k>método da substituição</k>, <b>isolamos uma incógnita</b> em uma das equações e <b>substituímos</b> sua expressão na outra.",
+        "Ex.: { y = 2x ; x + y = 9 } → substituindo y: x + 2x = 9 → 3x = 9 → x = 3. Então y = 2 · 3 = 6. Solução: (3, 6).",
+        "Ex.: { x + y = 7 ; 2x − y = 5 } → da primeira, y = 7 − x. Na segunda: 2x − (7 − x) = 5 → 2x − 7 + x = 5 → 3x = 12 → x = 4. Então y = 7 − 4 = 3. Solução: (4, 3).",
+        "Dica: escolha isolar a incógnita que tem coeficiente 1, pois as contas ficam mais fáceis."
+      ]},
+      {t:"Problemas com sistemas", h:[
+        "Passos: 1) identifique os dois valores desconhecidos e dê uma letra a cada um; 2) monte <b>duas equações</b> com as informações do problema; 3) resolva o sistema; 4) verifique e responda.",
+        "Ex.: “Num estacionamento há carros e motos, num total de 20 veículos e 56 rodas.” Carros = x, motos = y. { x + y = 20 ; 4x + 2y = 56 }.",
+        "Pela substituição: y = 20 − x → 4x + 2(20 − x) = 56 → 4x + 40 − 2x = 56 → 2x = 16 → x = 8. Então y = 12.",
+        "Resposta: <b>8 carros e 12 motos</b>. Verificação: 8 + 12 = 20 veículos e 32 + 24 = 56 rodas ✓."
+      ]},
+      {t:"Classificação de sistemas: SPD, SPI e SI", h:[
+        "<k>SPD — Sistema Possível e Determinado</k>: tem <b>uma única solução</b>. No gráfico, as retas das duas equações são <b>concorrentes</b> (se cruzam em um ponto).",
+        "<k>SPI — Sistema Possível e Indeterminado</k>: tem <b>infinitas soluções</b>. As equações são equivalentes, e as retas são <b>coincidentes</b>. Ex.: { x + y = 3 ; 2x + 2y = 6 }. Ao resolver, chega-se a algo como <b>0 = 0</b> (sempre verdadeiro).",
+        "<k>SI — Sistema Impossível</k>: <b>não tem solução</b>. As retas são <b>paralelas</b>. Ex.: { x + y = 3 ; x + y = 5 } — dois números não podem somar 3 e 5 ao mesmo tempo. Ao resolver, chega-se a algo falso, como <b>0 = 2</b>."
+      ]},
+      {t:"Equações do 2º grau simples (x² = k)", h:[
+        "Uma equação do tipo <k>x² = k</k> pede um número que, elevado ao quadrado, dê k.",
+        "Se <b>k &gt; 0</b>: há <b>duas raízes opostas</b>, x = √k ou x = −√k. Ex.: x² = 49 → x = 7 ou x = −7 (pois 7² = 49 e (−7)² = 49).",
+        "Se <b>k = 0</b>: há uma única raiz, x = 0.",
+        "Se k for <b>negativo</b>: <b>não há raiz real</b>, porque nenhum número real ao quadrado dá resultado negativo. Ex.: x² + 9 = 0 → x² = −9 → sem solução real.",
+        "Às vezes é preciso isolar x² primeiro: 2x² − 50 = 0 → 2x² = 50 → x² = 25 → x = 5 ou x = −5."
+      ]},
+      {t:"Quadriláteros notáveis", h:[
+        "A soma dos ângulos internos de <b>qualquer quadrilátero</b> é <b>360°</b>.",
+        "<k>Paralelogramo</k>: lados opostos <b>paralelos e congruentes</b> (de mesma medida); ângulos opostos congruentes; ângulos vizinhos somam 180°; as diagonais se cortam no ponto médio.",
+        "<b>Retângulo</b>: paralelogramo com <b>4 ângulos retos</b> (90°); as diagonais têm a mesma medida. <b>Losango</b>: paralelogramo com <b>4 lados congruentes</b>; as diagonais são <b>perpendiculares</b> e dividem os ângulos ao meio. <b>Quadrado</b>: é retângulo e losango ao mesmo tempo — tem 4 lados iguais e 4 ângulos retos.",
+        "<k>Trapézio</k>: tem <b>apenas um par de lados paralelos</b> (as bases). Pode ser <b>isósceles</b> (lados não paralelos iguais, ângulos da base iguais e diagonais iguais), <b>retângulo</b> (com dois ângulos retos) ou <b>escaleno</b> (lados não paralelos diferentes)."
+      ]},
+      {t:"Diagonais de um polígono convexo", h:[
+        "<b>Diagonal</b> é o segmento que liga dois vértices <b>não consecutivos</b> de um polígono.",
+        "De cada vértice saem <b>n − 3</b> diagonais: não se liga ao próprio vértice nem aos dois vizinhos. Como cada diagonal é contada duas vezes (uma em cada ponta), dividimos por 2.",
+        "Fórmula: <k>d = n(n − 3)/2</k>, em que n é o número de lados.",
+        "Exemplos: triângulo → 0; quadrilátero → 4 · 1/2 = 2; pentágono → 5 · 2/2 = 5; hexágono → 6 · 3/2 = 9; octógono → 8 · 5/2 = 20; decágono → 10 · 7/2 = 35."
+      ]},
+      {t:"Soma dos ângulos internos e externos", h:[
+        "Traçando as diagonais a partir de um só vértice, o polígono fica dividido em <b>n − 2 triângulos</b>. Como a soma dos ângulos de cada triângulo é 180°:",
+        "<k>Si = (n − 2) · 180°</k>. Ex.: quadrilátero → 360°; pentágono → 3 · 180° = 540°; hexágono → 4 · 180° = 720°; octógono → 6 · 180° = 1.080°.",
+        "A soma dos <b>ângulos externos</b> de qualquer polígono convexo é sempre <k>Se = 360°</k>, não importa o número de lados.",
+        "Um ângulo interno e o ângulo externo do mesmo vértice são <b>suplementares</b>: somam 180°."
+      ]},
+      {t:"Ângulos em polígonos regulares", h:[
+        "Um <b>polígono regular</b> tem todos os <b>lados</b> e todos os <b>ângulos</b> iguais (ex.: triângulo equilátero, quadrado, hexágono regular).",
+        "<b>Ângulo interno</b>: ai = (n − 2) · 180° / n. <b>Ângulo externo</b>: ae = 360° / n. <b>Ângulo central</b> (formado no centro por dois vértices consecutivos): ac = 360° / n — igual ao externo.",
+        "Ex.: <b>hexágono regular</b> → ai = 720° ÷ 6 = 120°; ae = 60°; ac = 60°. <b>Quadrado</b> → 90°, 90°, 90°. <b>Triângulo equilátero</b> → ai = 60°; ae = 120°; ac = 120°.",
+        "Para descobrir o número de lados pelo ângulo externo: n = 360° / ae. Ex.: se ae = 40°, então n = 9 (eneágono)."
+      ]},
+      {t:"Pavimentação e ladrilhamento do plano", h:[
+        "<k>Pavimentar</k> (ou ladrilhar) é cobrir uma superfície plana com polígonos, <b>sem sobrepor</b> e <b>sem deixar espaços vazios</b>, como em pisos e azulejos.",
+        "Condição: em cada vértice onde os polígonos se encontram, a soma dos ângulos deve ser exatamente <b>360°</b>.",
+        "Apenas <b>três polígonos regulares</b> pavimentam o plano sozinhos: o <b>triângulo equilátero</b> (6 × 60° = 360°), o <b>quadrado</b> (4 × 90° = 360°) e o <b>hexágono regular</b> (3 × 120° = 360°), como nos favos de mel das abelhas.",
+        "O <b>pentágono regular</b> não pavimenta sozinho: seu ângulo é 108°, e 3 × 108° = 324° (sobra espaço) e 4 × 108° = 432° (passa de 360°).",
+        "Também é possível combinar polígonos diferentes. Ex.: dois octógonos regulares e um quadrado → 135° + 135° + 90° = 360°. O artista holandês M. C. Escher ficou famoso por suas pavimentações artísticas."
+      ]}
+    ],
+    quiz:[
+      {q:"Quais são as raízes de x² = 49?", o:["Somente 7","7 e −7","24,5","Não tem raiz real"], a:1,
+       e:"7² = 49 e (−7)² = 49. Quando k > 0, há duas raízes opostas."},
+      {q:"Um sistema que não tem nenhuma solução é classificado como:", o:["SPD","SPI","SI","Determinado"], a:2,
+       e:"SI (sistema impossível) não tem solução: suas retas são paralelas."},
+      {q:"Qual é a soma dos ângulos internos de um hexágono?", o:["360°","540°","720°","1.080°"], a:2,
+       e:"Si = (6 − 2) · 180° = 4 · 180° = 720°."},
+      {q:"O quadrilátero com 4 lados congruentes e 4 ângulos retos é o:", o:["Losango","Retângulo","Trapézio","Quadrado"], a:3,
+       e:"O quadrado é ao mesmo tempo retângulo (4 ângulos retos) e losango (4 lados iguais)."},
+      {q:"Qual destes polígonos regulares pavimenta o plano sozinho?", o:["Pentágono","Hexágono","Octógono","Heptágono"], a:1,
+       e:"O ângulo interno do hexágono regular é 120°, e 3 × 120° = 360°."}
+    ],
+    match:[
+      {t:"SPD", d:"Sistema com uma única solução"},
+      {t:"SPI", d:"Sistema com infinitas soluções"},
+      {t:"SI", d:"Sistema sem nenhuma solução"},
+      {t:"Si = (n − 2) · 180°", d:"Soma dos ângulos internos de um polígono"},
+      {t:"Losango", d:"4 lados congruentes e diagonais perpendiculares"}
+    ],
+    ex:[
+      {q:"Resolva a equação literal na incógnita x e dê a condição de existência: <em>mx − 4 = 8</em>.",
+       s:["<b>1.</b> mx = 8 + 4 → mx = 12.","<b>2.</b> x = 12/m, e o denominador não pode ser zero."],
+       ans:"x = 12/m, com m ≠ 0."},
+      {q:"Na fórmula da área do triângulo, <em>A = b · h / 2</em>, isole h.",
+       s:["<b>1.</b> Multiplique os dois lados por 2: 2A = b · h.","<b>2.</b> Divida os dois lados por b."],
+       ans:"h = 2A / b (com b ≠ 0)."},
+      {q:"Resolva pelo método da adição: <em>x + y = 12</em> e <em>x − y = 4</em>.",
+       s:["<b>1.</b> Somando: 2x = 16 → x = 8.","<b>2.</b> 8 + y = 12 → y = 4."],
+       ans:"(8, 4)."},
+      {q:"Resolva pelo método da substituição: <em>y = 3x</em> e <em>x + y = 20</em>.",
+       s:["<b>1.</b> Substituindo y: x + 3x = 20 → 4x = 20 → x = 5.","<b>2.</b> y = 3 · 5 = 15."],
+       ans:"(5, 15)."},
+      {q:"Ana e Bia têm juntas 30 figurinhas. Ana tem 6 a mais que Bia. Quantas figurinhas tem cada uma?",
+       s:["<b>1.</b> Ana = x, Bia = y: x + y = 30 e x − y = 6.","<b>2.</b> Somando: 2x = 36 → x = 18; então y = 12."],
+       ans:"Ana tem 18 e Bia tem 12 figurinhas."},
+      {q:"Classifique o sistema: <em>x + y = 4</em> e <em>2x + 2y = 10</em>.",
+       s:["<b>1.</b> Multiplicando a primeira por 2: 2x + 2y = 8.","<b>2.</b> Mas a segunda diz que 2x + 2y = 10. Não pode ser 8 e 10 ao mesmo tempo."],
+       ans:"SI — sistema impossível (sem solução)."},
+      {q:"Resolva: (a) <em>x² = 81</em>; (b) <em>3x² − 48 = 0</em>.",
+       s:["<b>1.</b> (a) x = ±√81.","<b>2.</b> (b) 3x² = 48 → x² = 16 → x = ±√16."],
+       ans:"(a) x = 9 ou x = −9; (b) x = 4 ou x = −4."},
+      {q:"Quantas diagonais tem um octógono?",
+       s:["<b>1.</b> Use d = n(n − 3)/2 com n = 8.","<b>2.</b> d = 8 · 5 / 2."],
+       ans:"20 diagonais."},
+      {q:"Para um octógono regular, calcule: a soma dos ângulos internos, cada ângulo interno e cada ângulo externo.",
+       s:["<b>1.</b> Si = (8 − 2) · 180° = 1.080°.","<b>2.</b> ai = 1.080° ÷ 8 = 135°.","<b>3.</b> ae = 360° ÷ 8 = 45°."],
+       ans:"Si = 1.080°; ai = 135°; ae = 45°."},
+      {q:"Explique por que o pentágono regular não pavimenta o plano sozinho.",
+       s:["<b>1.</b> O ângulo interno do pentágono regular é 108°.","<b>2.</b> Teste: 3 × 108° = 324° e 4 × 108° = 432°."],
+       ans:"Porque nenhuma quantidade de ângulos de 108° soma exatamente 360° em um vértice: ou sobra espaço, ou há sobreposição."}
+    ]
+  },
+
+  /* ---------------- CIÊNCIAS ---------------- */
+  {
+    id:"cien", nome:"Ciências", em:"🔬", acc:"var(--cien)", dow:"Sex", dt:"16/10",
+    desc:"Ciclo menstrual e fecundação, gestação e parto, métodos anticoncepcionais, ISTs e os movimentos da Terra.",
+    resumo:[
+      {t:"Sistemas genitais e hormônios", h:[
+        "Na <b>puberdade</b>, os hormônios sexuais provocam mudanças no corpo e o amadurecimento dos sistemas genitais. Nos homens, os <b>testículos</b> produzem <b>testosterona</b>; nas mulheres, os <b>ovários</b> produzem <b>estrógeno</b> e <b>progesterona</b>.",
+        "<b>Sistema genital feminino</b>: <b>ovários</b> (produzem os ovócitos e hormônios), <b>tubas uterinas</b> (ligam os ovários ao útero; é nelas que geralmente ocorre a fecundação), <b>útero</b> (órgão onde o bebê se desenvolve; sua camada interna se chama <b>endométrio</b>) e <b>vagina</b>.",
+        "<b>Sistema genital masculino</b>: <b>testículos</b> (produzem os espermatozoides e a testosterona), epidídimos, ductos deferentes, glândulas (próstata e glândulas seminais, que produzem o líquido do sêmen), uretra e pênis.",
+        "Os hormônios <b>FSH</b> e <b>LH</b>, produzidos pela hipófise (glândula na base do encéfalo), comandam o funcionamento dos ovários e dos testículos."
+      ]},
+      {t:"O ciclo menstrual", h:[
+        "O <k>ciclo menstrual</k> é o conjunto de mudanças que prepara o corpo da mulher para uma possível gravidez. Dura em média <b>28 dias</b>, mas é normal variar, principalmente nos primeiros anos após a <b>menarca</b> (a primeira menstruação). O ciclo é contado a partir do <b>1º dia da menstruação</b>.",
+        "<b>Menstruação</b> (cerca dos dias 1 a 5): o endométrio se descama e é eliminado com sangue pela vagina.",
+        "<b>Fase folicular</b>: um folículo amadurece no ovário, a produção de estrógeno aumenta e o endométrio volta a engrossar.",
+        "<k>Ovulação</k> (por volta do <b>14º dia</b> em um ciclo de 28 dias): o ovário libera um ovócito para a tuba uterina. Os dias próximos à ovulação formam o <b>período fértil</b>.",
+        "<b>Fase lútea</b>: o folículo vira o <b>corpo-lúteo</b>, que produz progesterona e mantém o endométrio espesso. Se não houver fecundação, os hormônios diminuem, o endométrio se descama e começa uma nova menstruação."
+      ]},
+      {t:"A fecundação", h:[
+        "<k>Fecundação</k> é a união do <b>espermatozoide</b> com o <b>ovócito</b>. Ela ocorre geralmente na <b>tuba uterina</b>.",
+        "Apenas <b>um</b> espermatozoide consegue entrar no ovócito. Forma-se então o <b>zigoto</b> (célula-ovo), com material genético do pai e da mãe: 23 cromossomos de cada um, num total de 46.",
+        "O zigoto começa a se dividir enquanto desce pela tuba. Cerca de uma semana depois, o embrião se fixa no endométrio — é a <b>nidação</b>, início da gravidez.",
+        "O sexo biológico é definido pelo cromossomo sexual do espermatozoide (X ou Y).",
+        "<b>Gêmeos</b>: os <b>univitelinos</b> (idênticos) vêm de um único zigoto que se divide em dois; os <b>fraternos</b> vêm de dois ovócitos fecundados por dois espermatozoides diferentes."
+      ]},
+      {t:"A gestação", h:[
+        "A <k>gestação</k> dura cerca de <b>40 semanas</b> (aproximadamente 9 meses) e é dividida em três trimestres.",
+        "Até cerca da 8ª semana o ser em formação é chamado de <b>embrião</b>; é quando os órgãos começam a se formar. Depois passa a ser chamado de <b>feto</b>, que cresce e amadurece até o nascimento.",
+        "<k>Placenta</k>: órgão que permite as trocas entre mãe e feto — passa <b>nutrientes e oxigênio</b> da mãe para o feto e leva os resíduos do feto para a mãe. Também produz hormônios. O sangue da mãe e o do feto não se misturam.",
+        "<b>Cordão umbilical</b>: liga o feto à placenta. <b>Bolsa amniótica</b>: cheia de <b>líquido amniótico</b>, que protege o feto de choques e mantém a temperatura.",
+        "O <b>pré-natal</b> (consultas, exames, vacinas e boa alimentação) cuida da saúde da gestante e do bebê. Álcool, cigarro e outras drogas atravessam a placenta e podem prejudicar o desenvolvimento do bebê."
+      ]},
+      {t:"O parto e a amamentação", h:[
+        "No <k>parto</k>, o útero se contrai, o colo do útero se dilata, a bolsa se rompe e o bebê nasce. Depois é eliminada a placenta.",
+        "<b>Parto normal (vaginal)</b>: o bebê nasce pela vagina; em geral, a recuperação da mãe é mais rápida.",
+        "<b>Cesariana</b>: cirurgia em que o bebê é retirado por um corte no abdome e no útero. É indicada quando há riscos para a mãe ou o bebê.",
+        "<b>Amamentação</b>: o leite materno tem os nutrientes de que o bebê precisa e <b>anticorpos</b> que o protegem de doenças. A recomendação é amamentar exclusivamente até os 6 meses."
+      ]},
+      {t:"Métodos anticoncepcionais", h:[
+        "Os <k>métodos anticoncepcionais</k> (ou contraceptivos) servem para <b>evitar a gravidez</b> e fazem parte do planejamento familiar. A escolha deve ser feita com orientação de profissionais de saúde.",
+        "<b>De barreira</b>: impedem o encontro do espermatozoide com o ovócito. O principal é o <k>preservativo</k> (camisinha masculina ou feminina), o <b>único método que também protege contra as ISTs</b>. O diafragma também é um método de barreira.",
+        "<b>Hormonais</b>: pílula, injeção, adesivo, implante e anel vaginal. Em geral, <b>impedem a ovulação</b>. A pílula do dia seguinte é de emergência e não deve ser usada como rotina.",
+        "<b>DIU</b> (dispositivo intrauterino): pequeno objeto colocado no útero pelo médico; pode ser de cobre ou hormonal.",
+        "<b>Comportamentais</b>, como a “tabelinha”: tentam evitar o período fértil, mas são <b>pouco eficazes</b>, especialmente quando o ciclo é irregular. <b>Cirúrgicos</b> (definitivos): <b>vasectomia</b> (no homem, corte dos ductos deferentes) e <b>laqueadura</b> (na mulher, corte ou ligação das tubas uterinas)."
+      ]},
+      {t:"Infecções Sexualmente Transmissíveis (ISTs)", h:[
+        "As <k>ISTs</k> são infecções transmitidas principalmente por relações sexuais <b>sem preservativo</b>. Algumas também passam pelo <b>sangue</b> (compartilhamento de agulhas e seringas) e da <b>mãe para o bebê</b>, na gestação, no parto ou na amamentação.",
+        "<b>Causadas por vírus</b>: <b>HIV</b> (pode levar à aids, que enfraquece o sistema imunológico; não tem cura, mas há tratamento gratuito que controla o vírus), <b>HPV</b> (pode causar verrugas e câncer de colo do útero), herpes genital e hepatite B.",
+        "<b>Causadas por bactérias</b>: <b>sífilis</b> (tratada com penicilina), gonorreia e clamídia. <b>Por protozoário</b>: tricomoníase.",
+        "Muitas ISTs <b>não causam sintomas</b> no início. Por isso é importante fazer testes e procurar o serviço de saúde — o SUS oferece testes rápidos gratuitos.",
+        "<b>Prevenção</b>: uso do preservativo, <b>vacinas</b> (contra o HPV, oferecida no SUS para meninas e meninos de 9 a 14 anos, e contra a hepatite B), testagem, não compartilhar agulhas e seringas e fazer o pré-natal. Quem tem uma IST deve ser tratado com respeito, sem preconceito."
+      ]},
+      {t:"O movimento de rotação", h:[
+        "<k>Rotação</k> é o movimento que a Terra faz <b>girando em torno do próprio eixo</b>, de oeste para leste. Uma volta completa leva cerca de <b>24 horas</b> (mais exatamente, 23 h 56 min).",
+        "<b>Consequência principal</b>: a sucessão dos <b>dias e das noites</b>. A metade da Terra voltada para o Sol está iluminada (dia); a outra metade está no escuro (noite).",
+        "Por causa da rotação, vemos o <b>movimento aparente do Sol</b>: ele parece nascer no leste e se pôr no oeste.",
+        "A rotação também explica os <b>fusos horários</b>: a Terra foi dividida em 24 fusos de 15° cada, e lugares diferentes têm horários diferentes.",
+        "O eixo da Terra é <b>inclinado</b> cerca de 23,5° em relação ao plano da órbita. Essa inclinação é fundamental para as estações do ano."
+      ]},
+      {t:"O movimento de translação", h:[
+        "<k>Translação</k> é o movimento que a Terra faz <b>ao redor do Sol</b>. Uma volta completa leva cerca de <b>365 dias e 6 horas</b>.",
+        "Essas 6 horas extras se acumulam: a cada 4 anos formam 24 horas, ou seja, um dia a mais. Por isso existe o <b>ano bissexto</b>, com 366 dias e o dia 29 de fevereiro.",
+        "A órbita da Terra é uma elipse quase circular. O ponto mais próximo do Sol é o <b>periélio</b> (início de janeiro) e o mais distante é o <b>afélio</b> (início de julho).",
+        "Atenção: a <b>distância até o Sol NÃO é a causa das estações</b>! Em janeiro, quando a Terra está mais perto do Sol, é inverno no Hemisfério Norte.",
+        "As estações são causadas pela <b>inclinação do eixo</b> somada à <b>translação</b>: ao longo do ano, cada hemisfério recebe a luz do Sol de forma mais direta ou mais inclinada."
+      ]},
+      {t:"Estações do ano, solstícios e equinócios", h:[
+        "Como os hemisférios recebem quantidades diferentes de luz e calor ao longo do ano, as <b>estações são opostas</b> nos dois hemisférios: quando é verão no Brasil, é inverno na Europa. Por isso o Natal brasileiro é no calor!",
+        "<k>Solstícios</k>: um hemisfério recebe muito mais luz que o outro. No Hemisfério Sul, o <b>solstício de verão</b> (por volta de 21 de dezembro) tem o dia mais longo do ano, e o <b>solstício de inverno</b> (por volta de 21 de junho) tem a noite mais longa.",
+        "<k>Equinócios</k>: os dois hemisférios recebem a mesma quantidade de luz, e o dia e a noite têm cerca de 12 horas. No Hemisfério Sul, o equinócio de <b>outono</b> ocorre por volta de 20 de março e o de <b>primavera</b> por volta de 22 de setembro.",
+        "Perto da linha do Equador, as estações são pouco marcadas. Perto dos polos, há períodos com luz do Sol durante 24 horas (o “sol da meia-noite”) e outros de escuridão quase total."
+      ]}
+    ],
+    quiz:[
+      {q:"Onde geralmente ocorre a fecundação?", o:["No útero","Na tuba uterina","No ovário","Na vagina"], a:1,
+       e:"A fecundação geralmente ocorre na tuba uterina; depois o embrião desce e se fixa no útero."},
+      {q:"Qual é a função da placenta?", o:["Produzir espermatozoides","Realizar as trocas de nutrientes, oxigênio e resíduos entre mãe e feto","Liberar o ovócito","Proteger o feto apenas do frio"], a:1,
+       e:"Pela placenta passam nutrientes e oxigênio da mãe para o feto, e os resíduos do feto para a mãe."},
+      {q:"Qual método anticoncepcional também protege contra as ISTs?", o:["Pílula","DIU","Preservativo (camisinha)","Tabelinha"], a:2,
+       e:"O preservativo é o único método que evita a gravidez e também protege contra as ISTs."},
+      {q:"A sucessão dos dias e das noites é consequência do movimento de:", o:["Translação","Rotação","Precessão","Órbita da Lua"], a:1,
+       e:"A rotação (a Terra girando em torno do próprio eixo, em cerca de 24 h) produz os dias e as noites."},
+      {q:"O que causa as estações do ano?", o:["A distância da Terra ao Sol","A inclinação do eixo da Terra somada à translação","A rotação da Terra","As fases da Lua"], a:1,
+       e:"A inclinação do eixo faz cada hemisfério receber a luz do Sol de forma diferente ao longo da translação."}
+    ],
+    match:[
+      {t:"Ovulação", d:"Liberação do ovócito pelo ovário"},
+      {t:"Placenta", d:"Órgão de trocas entre a mãe e o feto"},
+      {t:"Preservativo", d:"Método que evita a gravidez e protege contra ISTs"},
+      {t:"Rotação", d:"Giro da Terra em torno do próprio eixo; dias e noites"},
+      {t:"Translação", d:"Volta da Terra ao redor do Sol em cerca de 365 dias"}
+    ],
+    ex:[
+      {q:"Qual é a duração média do ciclo menstrual e o que acontece na ovulação?",
+       s:["<b>1.</b> O ciclo é contado a partir do 1º dia da menstruação.","<b>2.</b> Na ovulação, algo é liberado pelo ovário."],
+       ans:"Cerca de 28 dias (pode variar); na ovulação, o ovário libera um ovócito para a tuba uterina."},
+      {q:"Por que ocorre a menstruação?",
+       s:["<b>1.</b> O endométrio engrossa para receber um possível embrião.","<b>2.</b> O que acontece quando não há fecundação?"],
+       ans:"Sem fecundação, os hormônios diminuem e o endométrio se descama, sendo eliminado com sangue."},
+      {q:"O que é fecundação, onde ocorre e o que se forma a partir dela?",
+       s:["<b>1.</b> Pense nas duas células que se unem.","<b>2.</b> Lembre do órgão que liga o ovário ao útero."],
+       ans:"É a união do espermatozoide com o ovócito, geralmente na tuba uterina; forma-se o zigoto (célula-ovo)."},
+      {q:"Quais são as funções da placenta e do líquido amniótico?",
+       s:["<b>1.</b> A placenta faz trocas entre mãe e feto.","<b>2.</b> O líquido amniótico envolve e protege o feto."],
+       ans:"A placenta passa nutrientes e oxigênio ao feto e retira seus resíduos; o líquido amniótico protege contra choques e mantém a temperatura."},
+      {q:"Explique a diferença entre parto normal e cesariana.",
+       s:["<b>1.</b> Pense por onde o bebê nasce.","<b>2.</b> Um deles é uma cirurgia."],
+       ans:"No parto normal o bebê nasce pela vagina; na cesariana, é retirado por uma cirurgia no abdome e no útero, indicada quando há riscos."},
+      {q:"Como agem os anticoncepcionais hormonais, como a pílula?",
+       s:["<b>1.</b> Eles alteram os hormônios do ciclo.","<b>2.</b> Qual etapa do ciclo é impedida?"],
+       ans:"Em geral, impedem a ovulação, evitando que haja ovócito para ser fecundado."},
+      {q:"Por que se recomenda usar o preservativo mesmo quando se usa outro método anticoncepcional?",
+       s:["<b>1.</b> Os outros métodos evitam a gravidez.","<b>2.</b> Mas eles protegem contra as ISTs?"],
+       ans:"Porque o preservativo é o único método que também protege contra as ISTs (dupla proteção)."},
+      {q:"Cite duas ISTs, indique o tipo de agente causador e duas formas de prevenção.",
+       s:["<b>1.</b> Pense em uma causada por vírus e outra por bactéria.","<b>2.</b> Lembre do preservativo e das vacinas."],
+       ans:"Ex.: HIV (vírus) e sífilis (bactéria); prevenção com preservativo e vacinas (HPV, hepatite B), além da testagem."},
+      {q:"O que é o movimento de rotação, quanto tempo dura e qual sua principal consequência?",
+       s:["<b>1.</b> A Terra gira em torno de quê?","<b>2.</b> O que esse giro produz no nosso dia a dia?"],
+       ans:"É o giro da Terra em torno do próprio eixo, em cerca de 24 horas; causa a sucessão dos dias e das noites."},
+      {q:"Por que existem as estações do ano? A distância da Terra ao Sol é a causa?",
+       s:["<b>1.</b> O eixo da Terra é inclinado.","<b>2.</b> Lembre que em janeiro a Terra está mais perto do Sol, e mesmo assim é inverno no Hemisfério Norte."],
+       ans:"Por causa da inclinação do eixo da Terra somada à translação, que faz os hemisférios receberem luz de forma diferente. A distância ao Sol não é a causa."}
+    ]
+  },
+
+  /* ---------------- HISTÓRIA ---------------- */
+  {
+    id:"hist", nome:"História", em:"🏛️", acc:"var(--hist)", dow:"Sex", dt:"16/10",
+    desc:"As regências e as rebeliões contra o poder central, D. Pedro II no trono e a expansão cafeeira.",
+    resumo:[
+      {t:"A abdicação e o início das regências", h:[
+        "Em <b>7 de abril de 1831</b>, D. Pedro I <b>abdicou</b> (renunciou) ao trono brasileiro, pressionado por crises políticas, e voltou para Portugal.",
+        "O herdeiro, seu filho <b>Pedro de Alcântara</b>, tinha apenas <b>5 anos</b>. Como a Constituição não permitia que um menor governasse, o país passou a ser comandado por <k>regentes</k> até que ele completasse 18 anos.",
+        "Esse período, de 1831 a 1840, é chamado de <k>Período Regencial</k>. Foi uma fase de muitas disputas políticas e revoltas em várias províncias.",
+        "As regências foram: <b>Trina Provisória</b> (1831), <b>Trina Permanente</b> (1831–1835), <b>Una de Feijó</b> (1835–1837) e <b>Una de Araújo Lima</b> (1837–1840)."
+      ]},
+      {t:"Grupos políticos e mudanças nas regências", h:[
+        "<b>Restauradores</b> (caramurus): queriam a <b>volta de D. Pedro I</b> ao trono.",
+        "<b>Liberais moderados</b> (chimangos): eram a maioria; defendiam a monarquia, mas com menos poder para o imperador.",
+        "<b>Liberais exaltados</b> (farroupilhas): queriam mais <b>autonomia para as províncias</b> (federalismo); alguns defendiam a república.",
+        "Em 1831 foi criada a <b>Guarda Nacional</b>, milícia de cidadãos com renda, comandada pelos grandes proprietários de terras, usada para manter a ordem e reprimir revoltas.",
+        "O <k>Ato Adicional de 1834</k> deu mais autonomia às províncias, criando as <b>Assembleias Legislativas provinciais</b>, e instituiu a regência una, eleita. A partir de 1837, com o <b>Regresso</b> conservador de Araújo Lima, o poder voltou a ser centralizado. Desses grupos surgiram os partidos <b>Liberal</b> e <b>Conservador</b>."
+      ]},
+      {t:"As rebeliões regenciais: causas", h:[
+        "Durante as regências ocorreram várias revoltas nas províncias. Elas tinham <b>causas diferentes</b>, mas muitas expressavam a insatisfação com a <b>centralização do poder</b> no Rio de Janeiro.",
+        "Também pesavam a cobrança de <b>impostos</b>, a <b>pobreza</b> de grande parte da população, a <b>escravidão</b> e as disputas entre as elites locais e o governo central.",
+        "Algumas revoltas foram lideradas pelas <b>elites</b>; outras tiveram grande participação das <b>camadas populares</b>, de indígenas e de escravizados. O governo reprimiu todas, muitas vezes com violência."
+      ]},
+      {t:"Cabanagem, Balaiada, Sabinada e Revolta dos Malês", h:[
+        "<k>Cabanagem</k> (Pará, 1835–1840): a população pobre — indígenas, mestiços e ribeirinhos, chamados de <b>cabanos</b> porque viviam em cabanas — tomou o poder em Belém. A repressão foi violentíssima: estima-se que de 30 mil a 40 mil pessoas morreram.",
+        "<k>Balaiada</k> (Maranhão, 1838–1841): reuniu vaqueiros, sertanejos pobres e escravizados. Um dos líderes, Manuel dos Anjos Ferreira, fazia balaios (cestos), daí o nome. O <b>Negro Cosme</b> liderou cerca de 3 mil escravizados. Foi reprimida por Luís Alves de Lima e Silva, que recebeu o título de <b>barão de Caxias</b>.",
+        "<k>Sabinada</k> (Bahia, 1837–1838): liderada pelo médico <b>Francisco Sabino</b>, com apoio das camadas médias urbanas de Salvador. Os revoltosos proclamaram uma república temporária, que duraria até a maioridade de D. Pedro II.",
+        "<k>Revolta dos Malês</k> (Salvador, 1835): organizada por africanos escravizados e libertos <b>muçulmanos</b> (os malês), contra a escravidão e a imposição do catolicismo. Foi rapidamente reprimida."
+      ]},
+      {t:"A Revolução Farroupilha", h:[
+        "A <k>Farroupilha</k> (ou Guerra dos Farrapos) ocorreu no <b>Rio Grande do Sul</b>, de <b>1835 a 1845</b>. Foi a <b>mais longa</b> revolta do período: durou 10 anos.",
+        "Foi liderada pela elite de <b>estancieiros</b> (grandes criadores de gado), como <b>Bento Gonçalves</b>. Eles reclamavam dos <b>altos impostos</b> cobrados sobre o <b>charque</b> (carne salgada) gaúcho, enquanto o charque vindo da região do Prata pagava menos e era mais barato.",
+        "Os farroupilhas proclamaram a <b>República Rio-Grandense</b> (1836) e, em Santa Catarina, a <b>República Juliana</b> (1839), com a participação de <b>Giuseppe e Anita Garibaldi</b>. Os <b>Lanceiros Negros</b>, soldados escravizados a quem se prometeu liberdade, lutaram ao lado dos rebeldes.",
+        "A guerra terminou com um acordo, a <b>Paz de Ponche Verde</b> (1845), negociada por Caxias, com anistia aos rebeldes e redução dos impostos."
+      ]},
+      {t:"O Golpe da Maioridade", h:[
+        "Com tantas revoltas, parte da elite acreditava que só a presença de um imperador traria ordem e unidade ao país.",
+        "Os <b>liberais</b>, que queriam também tirar os conservadores do poder, defenderam a antecipação da maioridade de Pedro de Alcântara.",
+        "Em <b>23 de julho de 1840</b>, o Parlamento declarou o jovem maior de idade, e ele assumiu o trono com apenas <b>14 anos</b>. Esse episódio ficou conhecido como <k>Golpe da Maioridade</k>. Ele foi coroado em 1841 como <b>D. Pedro II</b>.",
+        "Começava o <k>Segundo Reinado</k>, que durou até a Proclamação da República, em 1889 — quase 50 anos."
+      ]},
+      {t:"D. Pedro II no trono", h:[
+        "No Segundo Reinado, dois partidos se revezavam no poder: o <b>Conservador</b> (os “saquaremas”) e o <b>Liberal</b> (os “luzias”). Como ambos representavam os grandes proprietários, dizia-se: “Nada mais parecido com um saquarema do que um luzia no poder”.",
+        "Em 1847 foi adotado o <k>parlamentarismo às avessas</k>: criou-se o cargo de presidente do Conselho de Ministros (primeiro-ministro), mas era o <b>imperador quem o escolhia</b> e podia dissolver a Câmara usando o <b>Poder Moderador</b>. No parlamentarismo inglês ocorre o contrário: o Parlamento define o governo.",
+        "A <b>Revolução Praieira</b> (Pernambuco, 1848) foi a última grande revolta provincial. Depois dela, o Império viveu um longo período de <b>estabilidade política</b>.",
+        "D. Pedro II era interessado em <b>ciências, artes e fotografia</b>, viajou muito e apoiou instituições culturais, como o Instituto Histórico e Geográfico Brasileiro."
+      ]},
+      {t:"A expansão cafeeira", h:[
+        "O café chegou ao Brasil em 1727, pelo Pará. No século XIX, com o aumento do consumo na Europa e nos Estados Unidos, tornou-se o <b>principal produto de exportação</b> do país.",
+        "A produção avançou primeiro pelo <b>Rio de Janeiro</b> e depois pelo <k>Vale do Paraíba</k> (entre Rio e São Paulo). Lá, os fazendeiros usavam <b>trabalho escravizado</b> e técnicas predatórias: derrubavam a mata e esgotavam o solo. No fim do século, a produção entrou em decadência, deixando as chamadas “cidades mortas”.",
+        "Em seguida o café se espalhou pelo <k>Oeste Paulista</k> (Campinas, Ribeirão Preto), onde havia a fértil <b>terra roxa</b>. Os fazendeiros dali, mais modernos, investiram em <b>ferrovias</b> (como a São Paulo Railway, que ligava Jundiaí ao porto de Santos, inaugurada em 1867), em máquinas e no trabalho de <b>imigrantes</b>.",
+        "Os grandes cafeicultores, chamados de <b>barões do café</b>, tornaram-se a elite mais rica e poderosa do Império."
+      ]},
+      {t:"Café, mão de obra e imigração", h:[
+        "Em 1850, a <k>Lei Eusébio de Queirós</k> proibiu o tráfico de africanos escravizados para o Brasil. O número de escravizados diminuiu, e os fazendeiros passaram a comprá-los de outras províncias (o <b>tráfico interprovincial</b>, sobretudo do Nordeste para o Sudeste).",
+        "No mesmo ano, a <k>Lei de Terras</k> determinou que as terras só poderiam ser obtidas por <b>compra</b>. Isso dificultou o acesso à terra para pobres, imigrantes e, mais tarde, ex-escravizados.",
+        "Os fazendeiros buscaram trabalhadores europeus. No <b>sistema de parceria</b> (fazenda Ibicaba, do senador Vergueiro, 1847), os imigrantes chegavam com as passagens pagas pelo fazendeiro e ficavam endividados, o que gerou revoltas.",
+        "Mais tarde veio a <b>imigração subvencionada</b>, com passagens pagas pelo governo, e o <b>colonato</b>: os colonos, principalmente <b>italianos</b>, recebiam salário e podiam plantar alimentos para si.",
+        "Os lucros do café foram investidos em ferrovias, bancos, indústrias e no crescimento das cidades, especialmente de <b>São Paulo</b>."
+      ]}
+    ],
+    quiz:[
+      {q:"Por que o Brasil foi governado por regentes entre 1831 e 1840?", o:["Porque D. Pedro I morreu na guerra","Porque o herdeiro do trono era uma criança","Porque o Brasil virou república","Porque Portugal retomou o controle"], a:1,
+       e:"D. Pedro I abdicou em 1831, e seu filho tinha só 5 anos; pela Constituição, regentes governariam até ele completar 18 anos."},
+      {q:"Qual foi a principal causa da Revolução Farroupilha?", o:["A proibição do café","Os altos impostos sobre o charque gaúcho","A abolição da escravidão","A chegada dos imigrantes"], a:1,
+       e:"Os estancieiros gaúchos reclamavam que o charque deles pagava mais impostos que o charque vindo do Prata."},
+      {q:"No Golpe da Maioridade (1840), D. Pedro II assumiu o trono com:", o:["18 anos","5 anos","14 anos","21 anos"], a:2,
+       e:"O Parlamento antecipou a maioridade, e ele assumiu com 14 anos."},
+      {q:"O “parlamentarismo às avessas” recebeu esse nome porque:", o:["O Parlamento escolhia o imperador","O imperador escolhia o primeiro-ministro","Não havia Parlamento","Os ministros eram eleitos pelo povo"], a:1,
+       e:"Diferente do modelo inglês, o imperador escolhia o primeiro-ministro e podia dissolver a Câmara."},
+      {q:"A Lei Eusébio de Queirós (1850):", o:["Aboliu a escravidão","Proibiu o tráfico de africanos escravizados para o Brasil","Criou as capitanias","Proclamou a República"], a:1,
+       e:"Ela proibiu o tráfico negreiro, o que levou os cafeicultores a buscar imigrantes e o tráfico interprovincial."}
+    ],
+    match:[
+      {t:"Período Regencial", d:"Governo de regentes de 1831 a 1840"},
+      {t:"Cabanagem", d:"Revolta popular no Pará com indígenas e ribeirinhos"},
+      {t:"Farroupilha", d:"Revolta dos estancieiros gaúchos contra impostos sobre o charque"},
+      {t:"Parlamentarismo às avessas", d:"O imperador escolhia o primeiro-ministro"},
+      {t:"Lei de Terras (1850)", d:"Terras só podiam ser obtidas por compra"}
+    ],
+    ex:[
+      {q:"Por que o Brasil foi governado por regentes entre 1831 e 1840?",
+       s:["<b>1.</b> O que D. Pedro I fez em 1831?","<b>2.</b> Qual era a idade do herdeiro?"],
+       ans:"D. Pedro I abdicou e seu filho tinha só 5 anos; pela Constituição, regentes governariam até ele atingir a maioridade."},
+      {q:"Diferencie restauradores, liberais moderados e liberais exaltados.",
+       s:["<b>1.</b> Um grupo queria a volta de D. Pedro I.","<b>2.</b> Os outros dois divergiam sobre a autonomia das províncias."],
+       ans:"Restauradores queriam a volta de D. Pedro I; moderados defendiam a monarquia com menos poder ao imperador; exaltados queriam mais autonomia para as províncias (alguns, a república)."},
+      {q:"O que foi o Ato Adicional de 1834?",
+       s:["<b>1.</b> Foi uma mudança na Constituição.","<b>2.</b> Pense nas províncias e na regência."],
+       ans:"Reforma que deu mais autonomia às províncias, criando Assembleias Legislativas provinciais, e instituiu a regência una."},
+      {q:"Cite duas causas comuns às rebeliões regenciais.",
+       s:["<b>1.</b> Pense na relação entre as províncias e o Rio de Janeiro.","<b>2.</b> E nas condições de vida da população."],
+       ans:"Ex.: insatisfação com a centralização do poder e com os impostos (também pobreza e escravidão)."},
+      {q:"Onde ocorreu a Cabanagem e quem participou dela?",
+       s:["<b>1.</b> Foi na região Norte.","<b>2.</b> O nome vem das moradias dos participantes."],
+       ans:"No Pará; participaram principalmente indígenas, mestiços e ribeirinhos pobres (os cabanos)."},
+      {q:"Explique a Revolução Farroupilha: onde ocorreu, o motivo e como terminou.",
+       s:["<b>1.</b> Pense no charque gaúcho e nos impostos.","<b>2.</b> Lembre do acordo de 1845."],
+       ans:"Ocorreu no Rio Grande do Sul (1835–1845), por causa dos altos impostos sobre o charque; terminou com a Paz de Ponche Verde, com anistia e redução de impostos."},
+      {q:"O que foi o Golpe da Maioridade e por que aconteceu?",
+       s:["<b>1.</b> Pense na idade de D. Pedro em 1840.","<b>2.</b> Por que a elite queria um imperador no poder?"],
+       ans:"Foi a antecipação da maioridade de D. Pedro II, que assumiu com 14 anos, para tentar pôr fim às revoltas e trazer estabilidade (e, para os liberais, afastar os conservadores)."},
+      {q:"Explique o “parlamentarismo às avessas”.",
+       s:["<b>1.</b> Compare com o parlamentarismo inglês.","<b>2.</b> Quem escolhia o primeiro-ministro no Brasil?"],
+       ans:"O imperador escolhia o primeiro-ministro e podia dissolver a Câmara com o Poder Moderador, ao contrário do modelo inglês, em que o Parlamento define o governo."},
+      {q:"Compare a produção de café no Vale do Paraíba e no Oeste Paulista.",
+       s:["<b>1.</b> Pense na mão de obra e nas técnicas usadas.","<b>2.</b> Pense em ferrovias e imigrantes."],
+       ans:"No Vale do Paraíba usava-se mão de obra escravizada e técnicas predatórias que esgotaram o solo; no Oeste Paulista, com terra roxa, investiu-se em ferrovias, máquinas e trabalho de imigrantes."},
+      {q:"Quais foram as consequências da Lei Eusébio de Queirós para as fazendas de café?",
+       s:["<b>1.</b> A lei proibiu o tráfico negreiro.","<b>2.</b> Como os fazendeiros passaram a conseguir trabalhadores?"],
+       ans:"Diminuiu a oferta de escravizados; os fazendeiros recorreram ao tráfico interprovincial e, depois, à imigração europeia."}
+    ]
+  }
+];
+/* =========================================================
+   NÍVEIS / PATENTES
+   ========================================================= */
+var RANKS = [
+  {min:0,    nome:"Iniciante",  em:"🌱"},
+  {min:120,  nome:"Aprendiz",   em:"📗"},
+  {min:280,  nome:"Explorador", em:"🧭"},
+  {min:480,  nome:"Estudioso",  em:"📚"},
+  {min:720,  nome:"Craque",     em:"⭐"},
+  {min:1000, nome:"Mestre",     em:"🏆"}
+];
+function rankFor(xp){
+  var r = RANKS[0];
+  for(var i=0;i<RANKS.length;i++){ if(xp >= RANKS[i].min) r = RANKS[i]; }
+  return r;
+}
+function nextRank(xp){
+  for(var i=0;i<RANKS.length;i++){ if(xp < RANKS[i].min) return RANKS[i]; }
+  return null;
+}
+
+/* =========================================================
+   ESTADO + PERSISTÊNCIA
+   ========================================================= */
+var STORE_KEY = "rev8ano_t3_v1";
+var state = { xp:0, streak:0, best:0, done:{}, answers:{}, selfcheck:{} };
+
+function freshDone(){ var o={}; SUBJECTS.forEach(function(s){ o[s.id]={resumo:false,quiz:false,match:false,ex:false}; }); return o; }
+function loadState(){
+  try{ var raw=localStorage.getItem(STORE_KEY); if(raw) state=JSON.parse(raw); }catch(e){}
+  if(!state.done) state.done={};
+  SUBJECTS.forEach(function(s){ if(!state.done[s.id]) state.done[s.id]={resumo:false,quiz:false,match:false,ex:false}; });
+  if(typeof state.xp!=="number") state.xp=0;
+  if(typeof state.streak!=="number") state.streak=0;
+  if(typeof state.best!=="number") state.best=0;
+  if(!state.answers) state.answers={};
+  if(!state.selfcheck) state.selfcheck={};
+}
+function saveState(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){} }
+function wipeState(){
+  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+  state={ xp:0, streak:0, best:0, done:freshDone(), answers:{}, selfcheck:{} };
+  saveState();
+}
+
+function subjProgress(id){
+  var d=state.done[id], k=["resumo","quiz","match","ex"], c=0;
+  k.forEach(function(x){ if(d[x]) c++; }); return Math.round(c/4*100);
+}
+function isMaster(id){ return subjProgress(id)===100; }
+
+function addXP(n,msg,isXpToast){
+  var beforeRank=rankFor(state.xp).nome;
+  state.xp+=n; saveState(); renderStatus();
+  var afterRank=rankFor(state.xp).nome;
+  if(msg) toast(msg, isXpToast);
+  if(afterRank!==beforeRank){
+    setTimeout(function(){ toast("Nova patente: "+rankFor(state.xp).em+" "+afterRank+"!", true); burstConfetti(70); }, 700);
+  }
+}
+function bumpStreak(){
+  state.streak++; if(state.streak>state.best) state.best=state.streak;
+  var bonus=0;
+  if(state.streak===3) bonus=5; else if(state.streak===5) bonus=10; else if(state.streak>0 && state.streak%10===0) bonus=20;
+  saveState(); renderStatus(); pulseFlame();
+  if(bonus){ addXP(bonus, "🔥 Sequência de "+state.streak+"! +"+bonus+" XP bônus", true); }
+}
+function breakStreak(){ state.streak=0; saveState(); renderStatus(); }
+
+function markDone(id,part){
+  if(!state.done[id][part]){
+    state.done[id][part]=true; saveState();
+    renderCards(); renderWeek();
+    if(isMaster(id)) celebrateSubject(id);
+  }
+}
+
+/* =========================================================
+   RENDER — HERO / STATUS / SEMANA / CARDS
+   ========================================================= */
+var elWeek=document.getElementById("week");
+var elCards=document.getElementById("cards");
+var elHome=document.getElementById("home");
+var elSubjView=document.getElementById("subjectView");
+
+function shortName(n){ return n.replace("Língua Portuguesa","Português"); }
+
+function renderStatus(){
+  var r=rankFor(state.xp), nx=nextRank(state.xp);
+  document.getElementById("lvlEmb").textContent=r.em;
+  document.getElementById("lvlRank").textContent=r.nome;
+  var fill=document.getElementById("lvlFill");
+  if(nx){
+    var span=nx.min-r.min, into=state.xp-r.min;
+    fill.style.width=Math.min(100,Math.round(into/span*100))+"%";
+    document.getElementById("lvlSub").textContent=state.xp+" XP · faltam "+(nx.min-state.xp)+" p/ "+nx.nome;
+  }else{
+    fill.style.width="100%";
+    document.getElementById("lvlSub").textContent=state.xp+" XP · patente máxima!";
+  }
+  document.getElementById("streakNum").textContent=state.streak;
+}
+function pulseFlame(){
+  var f=document.getElementById("flame"); f.classList.add("pulse");
+  setTimeout(function(){ f.classList.remove("pulse"); },220);
+}
+
+function renderWeek(){
+  var html="";
+  SUBJECTS.forEach(function(s){
+    var p=subjProgress(s.id), m=isMaster(s.id)?" master":"";
+    html+='<button class="day'+m+'" data-id="'+s.id+'">'
+      +'<span class="medal">🥇</span>'
+      +'<div class="dow">'+s.dow+'</div><div class="dt">'+s.dt+'</div>'
+      +'<div class="em">'+s.em+'</div><div class="nm">'+shortName(s.nome)+'</div>'
+      +'<div class="mini"><i style="width:'+p+'%"></i></div></button>';
+  });
+  elWeek.innerHTML=html;
+  Array.prototype.forEach.call(elWeek.querySelectorAll(".day"),function(b){
+    b.addEventListener("click",function(){ openSubject(b.getAttribute("data-id")); });
+  });
+}
+
+function renderCards(){
+  var html="";
+  SUBJECTS.forEach(function(s){
+    var p=subjProgress(s.id), m=isMaster(s.id)?" master":"";
+    html+='<div class="card'+m+'" data-id="'+s.id+'" style="--acc:'+s.acc+'">'
+      +'<div class="stripe"></div>'
+      +'<div class="top"><span class="badge">'+s.dow+' · '+s.dt+'</span><span class="em">'+s.em+'</span></div>'
+      +'<span class="medal">🥇</span>'
+      +'<h3>'+shortName(s.nome)+'</h3>'
+      +'<p class="desc">'+s.desc+'</p>'
+      +'<div class="ring-row"><div class="ring" style="--p:'+p+'; --acc:'+s.acc+'"><span>'+p+'%</span></div>'
+      +'<span class="go">'+(isMaster(s.id)?"Revisar de novo →":"Revisar →")+'</span></div></div>';
+  });
+  elCards.innerHTML=html;
+  Array.prototype.forEach.call(elCards.querySelectorAll(".card"),function(c){
+    c.addEventListener("click",function(){ openSubject(c.getAttribute("data-id")); });
+  });
+}
+
+/* =========================================================
+   VISTA DA MATÉRIA
+   ========================================================= */
+function openSubject(id){
+  var s=SUBJECTS.filter(function(x){return x.id===id;})[0]; if(!s) return;
+  elHome.style.display="none";
+  elSubjView.innerHTML=buildSubject(s);
+  wireSubject(s);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function closeSubject(){
+  elSubjView.innerHTML=""; elHome.style.display="block";
+  renderCards(); renderWeek();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function withKeys(str){ return str.replace(/<k>/g,'<span class="key">').replace(/<\/k>/g,'</span>'); }
+function tick(id,part){ return state.done[id][part]?'<span class="tick">✓</span>':''; }
+
+function buildSubject(s){
+  var h='<div class="subject active" style="--accV:'+s.acc+'">';
+  h+='<div class="backbar"><button class="back" id="btnBack">← Todas as matérias</button></div>';
+  h+='<div class="subj-head"><span class="em">'+s.em+'</span><div><h2>'+s.nome+'</h2><div class="u">Prova: '+s.dow+' · '+s.dt+'</div></div></div>';
+
+  h+='<div class="medal-banner" id="medalBanner"><div class="big">🥇</div><div class="t">Medalha conquistada!</div><div class="s">Você completou as 4 atividades desta matéria.</div></div>';
+
+  h+='<div class="tabs">'
+    +'<button class="tab on" data-p="resumo">Resumo'+tick(s.id,"resumo")+'</button>'
+    +'<button class="tab" data-p="quiz">Quiz'+tick(s.id,"quiz")+'</button>'
+    +'<button class="tab" data-p="match">Ligar'+tick(s.id,"match")+'</button>'
+    +'<button class="tab" data-p="ex">Exercícios'+tick(s.id,"ex")+'</button></div>';
+
+  /* RESUMO */
+  h+='<div class="pane on" data-pane="resumo">';
+  s.resumo.forEach(function(r){
+    h+='<div class="note"><h4>'+r.t+'</h4>';
+    r.h.forEach(function(p){ h+='<p>'+withKeys(p)+'</p>'; });
+    h+='</div>';
+  });
+  h+='<div class="done-flag show" style="border-style:solid">Terminou de ler? <button class="reveal" id="resumoDone" style="margin-left:8px">Marcar resumo como revisado</button></div>';
+  h+='</div>';
+
+  /* QUIZ */
+  h+='<div class="pane" data-pane="quiz">';
+  h+='<div class="scorebar">🎯 <span id="quizScore">Acertos: 0 de '+s.quiz.length+'</span></div>';
+  s.quiz.forEach(function(q,i){
+    h+='<div class="q" data-qi="'+i+'"><div class="qn">Questão '+(i+1)+'</div><div class="qt">'+q.q+'</div><div class="opts">';
+    q.o.forEach(function(op,j){ h+='<button class="opt" data-j="'+j+'"><span class="l">'+String.fromCharCode(65+j)+'</span><span>'+op+'</span></button>'; });
+    h+='</div><div class="explain"><b>Por quê:</b> '+q.e+'</div></div>';
+  });
+  h+='<div class="done-flag" data-flag="quiz">Quiz concluído! 🎯</div></div>';
+
+  /* MATCH */
+  h+='<div class="pane" data-pane="match">';
+  h+='<p class="match-help">Toque num <b>termo</b> à esquerda e depois na <b>definição</b> certa à direita. Cada acerto vale XP; erro zera sua sequência 🔥.</p>';
+  h+='<div class="match"><div class="col terms"><h4>Termos</h4><div data-terms></div></div><div class="col defs"><h4>Definições</h4><div data-defs></div></div></div>';
+  h+='<div class="done-flag" data-flag="match">Tudo ligado corretamente! 🔗</div></div>';
+
+  /* EX */
+  h+='<div class="pane" data-pane="ex">';
+  s.ex.forEach(function(x,i){
+    var saved=(state.answers[s.id]&&state.answers[s.id][i])?state.answers[s.id][i]:"";
+    h+='<div class="ex"><div class="en">Exercício '+(i+1)+'</div><div class="et">'+x.q+'</div>';
+    h+='<div class="ans-label">Sua resposta<span class="ans-saved" data-saved="'+i+'">salvo ✓</span></div>';
+    h+='<textarea class="ans-field" data-ans="'+i+'" placeholder="Escreva aqui sua resposta antes de conferir...">'+escapeHtml(saved)+'</textarea>';
+    h+='<div class="ex-actions"><button class="reveal" data-rev="'+i+'">Conferir resolução</button></div>';
+    h+='<div class="sol" data-sol="'+i+'">';
+    x.s.forEach(function(st){ h+='<p class="step">'+st+'</p>'; });
+    h+='<div class="ans">✓ Resposta: '+x.ans+'</div></div>';
+    h+='<div class="selfcheck" data-sc="'+i+'"><span class="lbl">Como você foi?</span>'
+      +'<button class="sc-btn good" data-scv="good">Acertei 😄</button>'
+      +'<button class="sc-btn soso" data-scv="soso">Vou revisar 📌</button></div>';
+    h+='</div>';
+  });
+  h+='<div class="done-flag" data-flag="ex">Exercícios revisados! ✏️</div></div>';
+
+  h+='</div>';
+  return h;
+}
+function escapeHtml(t){ return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+/* =========================================================
+   INTERAÇÕES
+   ========================================================= */
+function wireSubject(s){
+  var root=elSubjView;
+  root.querySelector("#btnBack").addEventListener("click",closeSubject);
+  if(isMaster(s.id)) root.querySelector("#medalBanner").classList.add("show");
+
+  var tabs=root.querySelectorAll(".tab"), panes=root.querySelectorAll(".pane");
+  Array.prototype.forEach.call(tabs,function(t){
+    t.addEventListener("click",function(){
+      Array.prototype.forEach.call(tabs,function(x){x.classList.remove("on");});
+      Array.prototype.forEach.call(panes,function(x){x.classList.remove("on");});
+      t.classList.add("on");
+      root.querySelector('[data-pane="'+t.getAttribute("data-p")+'"]').classList.add("on");
+    });
+  });
+
+  var rd=root.querySelector("#resumoDone");
+  if(state.done[s.id].resumo){ rd.textContent="Revisado ✓"; rd.disabled=true; }
+  rd.addEventListener("click",function(){
+    if(!state.done[s.id].resumo){ markDone(s.id,"resumo"); addXP(40,"+40 XP · resumo revisado",true); }
+    this.textContent="Revisado ✓"; this.disabled=true; refreshTicks(s,root);
+  });
+
+  wireQuiz(s,root);
+  wireMatch(s,root);
+  wireEx(s,root);
+}
+function refreshTicks(s,root){
+  var map={resumo:0,quiz:1,match:2,ex:3}, tabs=root.querySelectorAll(".tab");
+  ["resumo","quiz","match","ex"].forEach(function(p,i){
+    var t=tabs[i]; var has=t.querySelector(".tick");
+    if(state.done[s.id][p] && !has){ t.insertAdjacentHTML("beforeend",'<span class="tick">✓</span>'); }
+  });
+  if(isMaster(s.id)) root.querySelector("#medalBanner").classList.add("show");
+}
+
+function wireQuiz(s,root){
+  var answered={}, hits=0;
+  var scoreEl=root.querySelector("#quizScore");
+  var qs=root.querySelectorAll('[data-pane="quiz"] .q');
+  Array.prototype.forEach.call(qs,function(qEl){
+    var qi=parseInt(qEl.getAttribute("data-qi"),10), correct=s.quiz[qi].a, opts=qEl.querySelectorAll(".opt");
+    Array.prototype.forEach.call(opts,function(op){
+      op.addEventListener("click",function(){
+        if(answered[qi]) return; answered[qi]=true;
+        var j=parseInt(op.getAttribute("data-j"),10);
+        Array.prototype.forEach.call(opts,function(o){o.disabled=true;});
+        if(j===correct){ op.classList.add("correct"); hits++; scoreEl.textContent="Acertos: "+hits+" de "+s.quiz.length; addXP(10,"Certo! +10 XP",true); bumpStreak(); }
+        else{ op.classList.add("wrong"); opts[correct].classList.add("correct"); breakStreak(); }
+        qEl.querySelector(".explain").classList.add("show");
+        if(Object.keys(answered).length===s.quiz.length){
+          if(!state.done[s.id].quiz){ markDone(s.id,"quiz"); addXP(20,"Quiz completo! +20 XP",true); refreshTicks(s,root); }
+          root.querySelector('[data-flag="quiz"]').classList.add("show");
+          if(hits===s.quiz.length){ addXP(15,"Gabaritou o quiz! +15 XP",true); burstConfetti(50); }
+        }
+      });
+    });
+  });
+}
+
+function wireMatch(s,root){
+  var termsBox=root.querySelector("[data-terms]"), defsBox=root.querySelector("[data-defs]");
+  var pairs=s.match, defsShuffled=shuffle(pairs.map(function(p,i){return {i:i,d:p.d};}));
+  var tHtml=""; pairs.forEach(function(p,i){ tHtml+='<button class="chip" data-term="'+i+'">'+p.t+'</button>'; });
+  var dHtml=""; defsShuffled.forEach(function(o){ dHtml+='<button class="chip" data-def="'+o.i+'">'+o.d+'</button>'; });
+  termsBox.innerHTML=tHtml; defsBox.innerHTML=dHtml;
+  var selTerm=null, solved=0;
+  function clearSel(){ if(selTerm){ selTerm.classList.remove("sel"); selTerm=null; } }
+  Array.prototype.forEach.call(termsBox.querySelectorAll(".chip"),function(b){
+    b.addEventListener("click",function(){ if(b.classList.contains("done"))return; clearSel(); selTerm=b; b.classList.add("sel"); });
+  });
+  Array.prototype.forEach.call(defsBox.querySelectorAll(".chip"),function(b){
+    b.addEventListener("click",function(){
+      if(b.classList.contains("done"))return;
+      if(!selTerm){ toast("Escolha primeiro um termo à esquerda"); return; }
+      if(selTerm.getAttribute("data-term")===b.getAttribute("data-def")){
+        selTerm.classList.remove("sel"); selTerm.classList.add("done"); b.classList.add("done"); selTerm=null; solved++;
+        addXP(8,"Ligação certa! +8 XP",true); bumpStreak();
+        if(solved===pairs.length){
+          if(!state.done[s.id].match){ markDone(s.id,"match"); addXP(16,"Todas ligadas! +16 XP",true); refreshTicks(s,root); }
+          root.querySelector('[data-flag="match"]').classList.add("show"); burstConfetti(40);
+        }
+      }else{ b.classList.add("miss"); setTimeout(function(){b.classList.remove("miss");},350); breakStreak(); clearSel(); }
+    });
+  });
+}
+
+function wireEx(s,root){
+  var revealed={};
+  // answer autosave
+  Array.prototype.forEach.call(root.querySelectorAll("[data-ans]"),function(ta){
+    var i=ta.getAttribute("data-ans");
+    ta.addEventListener("input",function(){
+      if(!state.answers[s.id]) state.answers[s.id]={};
+      state.answers[s.id][i]=ta.value; saveState();
+      var tag=root.querySelector('[data-saved="'+i+'"]'); tag.classList.add("show");
+      clearTimeout(ta._t); ta._t=setTimeout(function(){ tag.classList.remove("show"); },1200);
+    });
+  });
+  // reveal + selfcheck
+  Array.prototype.forEach.call(root.querySelectorAll("[data-rev]"),function(b){
+    b.addEventListener("click",function(){
+      var i=b.getAttribute("data-rev");
+      var sol=root.querySelector('[data-sol="'+i+'"]');
+      var open=sol.classList.toggle("show");
+      b.textContent=open?"Ocultar resolução":"Conferir resolução";
+      if(open){ revealed[i]=true; root.querySelector('[data-sc="'+i+'"]').classList.add("show"); }
+      if(Object.keys(revealed).length===s.ex.length && !state.done[s.id].ex){
+        markDone(s.id,"ex"); addXP(40,"+40 XP · exercícios concluídos",true); refreshTicks(s,root);
+        root.querySelector('[data-flag="ex"]').classList.add("show");
+      }
+    });
+  });
+  Array.prototype.forEach.call(root.querySelectorAll("[data-sc]"),function(box){
+    var i=box.getAttribute("data-sc");
+    Array.prototype.forEach.call(box.querySelectorAll(".sc-btn"),function(btn){
+      btn.addEventListener("click",function(){
+        if(!state.selfcheck[s.id]) state.selfcheck[s.id]={};
+        if(state.selfcheck[s.id][i]) return;
+        state.selfcheck[s.id][i]=btn.getAttribute("data-scv"); saveState();
+        Array.prototype.forEach.call(box.querySelectorAll(".sc-btn"),function(o){o.classList.add("picked");});
+        btn.classList.remove("picked");
+        if(btn.getAttribute("data-scv")==="good"){ addXP(5,"+5 XP pela honestidade 💪",true); }
+        else{ toast("Anotado! Volte nesse depois 📌"); }
+      });
+    });
+  });
+}
+
+/* =========================================================
+   CELEBRAÇÃO
+   ========================================================= */
+function celebrateSubject(id){
+  var s=SUBJECTS.filter(function(x){return x.id===id;})[0];
+  burstConfetti(120);
+  toast("🥇 Medalha de "+shortName(s.nome)+" conquistada!", true);
+  var banner=document.getElementById("medalBanner");
+  if(banner) banner.classList.add("show");
+}
+var CONF_COLORS=["#cdab5a","#c1533f","#2f6b5e","#6b4f9e","#2b5a8c","#f2dd97"];
+function burstConfetti(n){
+  if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  for(var i=0;i<n;i++){ makeConfetto(); }
+}
+function makeConfetto(){
+  var d=document.createElement("div"); d.className="confetti";
+  var left=Math.random()*100;
+  d.style.left=left+"vw";
+  d.style.background=CONF_COLORS[Math.floor(Math.random()*CONF_COLORS.length)];
+  d.style.transform="rotate("+(Math.random()*360)+"deg)";
+  document.body.appendChild(d);
+  var fall=900+Math.random()*900;
+  var drift=(Math.random()*160-80);
+  var rot=Math.random()*720-360;
+  var anim=d.animate(
+    [{transform:"translate(0,0) rotate(0deg)", opacity:1},
+     {transform:"translate("+drift+"px,"+(window.innerHeight+40)+"px) rotate("+rot+"deg)", opacity:.9}],
+    {duration:fall, easing:"cubic-bezier(.2,.6,.5,1)"}
+  );
+  anim.onfinish=function(){ d.remove(); };
+}
+
+/* =========================================================
+   UTILS
+   ========================================================= */
+function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+var toastTimer=null;
+function toast(msg,xp){
+  var el=document.getElementById("toast");
+  el.textContent=msg; el.className="toast show"+(xp?" xp":"");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){ el.classList.remove("show"); },1700);
+}
+
+/* =========================================================
+   RESET (LIMPAR DADOS)
+   ========================================================= */
+var modalBg=document.getElementById("modalBg");
+document.getElementById("btnReset").addEventListener("click",function(){ modalBg.classList.add("show"); });
+document.getElementById("mCancel").addEventListener("click",function(){ modalBg.classList.remove("show"); });
+modalBg.addEventListener("click",function(e){ if(e.target===modalBg) modalBg.classList.remove("show"); });
+document.getElementById("mConfirm").addEventListener("click",function(){
+  wipeState(); modalBg.classList.remove("show");
+  closeSubject(); renderStatus(); renderWeek(); renderCards();
+  toast("Tudo limpo! Bons estudos 🌱");
+});
+
+/* =========================================================
+   INIT
+   ========================================================= */
+loadState();
+renderStatus();
+renderWeek();
+renderCards();
+</script>
+</body>
+</html>
